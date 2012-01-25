@@ -1,4 +1,4 @@
-getMTS <- function(begintime, endtime, station, getvar, .mcores=F) {
+mts <- function(begintime, endtime, station, getvar, .mcores=F) {
   ## Gets Mesonet MTS file from Mesonet homepage
   ## Args:
   ##  begintime: beginning date,given as 'YYYY-MM-DD'
