@@ -1,0 +1,27 @@
+retrievemts <- function(station, datemts, getvar) {
+  ## Retrieve MTS file from Mesonet website
+  ## Arguments:
+  ##  station: four letter character ID for Mesonet station, lowercase
+  ##  datemts: date of MTS file to retrieve, POSIXct format
+  ##  getvar: variables to retrieve
+  ## Returns: dataframe containing MTS file with timestamp
+  
+  ## read MTS from Mesonet website
+  hold <- read.csv(paste("http://www.mesonet.org/index.php/dataMdfMts/dataController/getFile/", 
+                         format.POSIXct(datemts, format="%Y%m%d"), station, 
+                         "/mts/TEXT/", sep = ""), 
+                   skip = 2, header = T, as.is = T, sep = "", nrows = 288)
+  
+  ## IMPORTANT: convert 'TIME' field to timestamp
+  ## TIME represents the number of minutes from base time specific 
+  ## in MTS file
+  ## see http://www.mesonet.org/wiki/Public:MDF_Format
+  ## this appears to be always 00:00:00 UTC
+  hold$timestamp <- as.POSIXct(hold$TIME*60, origin=datemts)
+  
+  if(getvar == "ALL") {
+    return(hold)
+  } else {
+    return(hold[, c("STID", "STNM", "timestamp", getvar)])
+  }
+}
