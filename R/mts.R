@@ -15,13 +15,19 @@ mts <- function(begintime, endtime, station, getvar, localtime=T, .mcores=F) {
   variables <- c("STID", "STNM", "RELH", "TAIR", "WSPD", "WVEC", "WDIR", "WDSD", 
                  "WSSD", "WMAX", "RAIN", "PRES", "SRAD", "TA9M", "WS2M", "TS10", 
                  "TB10", "TS05", "TB05", "TS30", "TR05", "TR25", "TR60", "TR75",
-                 "all")
+                 "ALL")
+  
+  ## convert getvar to uppercase
+  getvar <- toupper(getvar)
   
   ## check to see if getvar matches available variables
   if(all(getvar %in% variables)==FALSE) {
     stop(c("Desired variables do not match available variables. ",
            "See http://www.mesonet.org/files/parameter_description_readme.pdf ",
          "for list.")) }
+  
+  ## if getvar contains "ALL", remove anything else
+  if(any(getvar=="ALL")==TRUE) getvar <- "ALL"
   
   ##  format start and end dates according to timezone specification
   ##  if local time is desired, format dates to CST/CDT
@@ -79,27 +85,8 @@ mts <- function(begintime, endtime, station, getvar, localtime=T, .mcores=F) {
       }
   	}
   } else {
-    for(i in 1:length(dates.gmt)) {
-      date.long <- format.POSIXct(dates.gmt[i],format="%Y%m%d")
-      
-      ## read MTS from Mesonet website
-      all.MTS[[i]] <- read.csv(paste("http://www.mesonet.org/index.php/dataMdfMts/dataController/getFile/",
-                                     date.long, station, "/mts/TEXT/", sep = ""),
-                               skip = 2, header = T, as.is = T, sep = "",
-                               nrows = 288)
-      
-    	## IMPORTANT: convert 'TIME' field to timestamp
-      ## TIME represents the number of minutes from base time specific in 
-      ## MTS file
-      ## see http://www.mesonet.org/wiki/Public:MDF_Format
-      ## this appears to be always 00:00:00 UTC
-      all.MTS[[i]]$timestamp <- as.POSIXct(all.MTS[[i]]$TIME*60, 
-                                           origin=dates.gmt[i])
-      
-      if(all(getvar != "all")==T) {
-        all.MTS[[i]] <- all.MTS[[i]][, c("STID", "STNM", "timestamp", getvar)]
-      }
-    }
+    all.MTS <- lapply(dates.gmt, FUN=retrievemts, station=station, 
+                      getvar=getvar)
   }
   
   ##  If localtime==T, convert back to CST/CDT and subset to begin/end time
