@@ -56,34 +56,9 @@ mts <- function(begintime, endtime, station, getvar, localtime=T, .mcores=F) {
   
   ## use multiple cores if indicated by .mcores=T
   if(.mcores==T) {
-    library(doMC)
-    registerDoMC()
-    
-    ## Use foreach and %dopar% to utilize multiple cores
-    ## errorhandling set to 'remove'; if an evaluation error occurs, the result
-    ## will be removed
-    all.MTS <- foreach(i = 1:length(dates.gmt),  
-                       .errorhandling = "remove") %dopar% {
-  		date.long <- format.POSIXct(dates.gmt[i], format="%Y%m%d")
-      
-      ## read MTS from Mesonet website
-      hold <- read.csv(paste("http://www.mesonet.org/index.php/dataMdfMts/dataController/getFile/", 
-                             date.long, station, "/mts/TEXT/", sep = ""), 
-                       skip = 2, header = T, as.is = T, sep = "", nrows = 288)
-      
-  		## IMPORTANT: convert 'TIME' field to timestamp
-      ## TIME represents the number of minutes from base time specific 
-      ## in MTS file
-      ## see http://www.mesonet.org/wiki/Public:MDF_Format
-      ## this appears to be always 00:00:00 UTC
-      hold$timestamp <- as.POSIXct(hold$TIME*60, origin=dates.gmt[i])
-      
-      if(all(getvar != "all")==T) {
-        return(hold[, c("STID", "STNM", "timestamp", getvar)])
-      } else {
-          return(hold)
-      }
-  	}
+    library(parallel)
+    all.MTS <- mclapply(dates.gmt, FUN=retrievemts, station=station,
+                        getvar=getvar, mc.cores=detectCores())
   } else {
     all.MTS <- lapply(dates.gmt, FUN=retrievemts, station=station, 
                       getvar=getvar)
