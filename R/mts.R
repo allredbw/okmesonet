@@ -1,4 +1,4 @@
-mts <- function(begintime, endtime, station, getvar, localtime=T, .mcores=F) {
+mts <- function(begintime, endtime, station, getvar, localtime=T, mcores=F) {
   ## Gets Mesonet MTS file from Mesonet homepage
   ## Args:
   ##  begintime: beginning date,given as 'YYYY-MM-DD 00:00'
@@ -7,7 +7,7 @@ mts <- function(begintime, endtime, station, getvar, localtime=T, .mcores=F) {
   ##  getvar: variables to retrieve
   ##  localtime: logical to indicate the use of Oklahoma local time, else 
   ##    use GMT
-  ##  .mcores: logical to indicate use of foreach and multiple cores
+  ##  mcores: logical to indicate use of foreach and multiple cores
   ## Returns: dataframe of MTS files
   library(plyr)
   
@@ -54,8 +54,8 @@ mts <- function(begintime, endtime, station, getvar, localtime=T, .mcores=F) {
   hold <- data.frame()
 	all.MTS <- vector(mode="list", length=length(dates.gmt))
   
-  ## use multiple cores if indicated by .mcores=T
-  if(.mcores==T) {
+  ## use multiple cores if indicated by mcores=T
+  if(mcores==T) {
     library(parallel)
     all.MTS <- mclapply(dates.gmt, FUN=retrievemts, station=station,
                         getvar=getvar, mc.cores=detectCores())
