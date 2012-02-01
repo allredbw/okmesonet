@@ -59,6 +59,13 @@ mts <- function(begintime, endtime, station, getvar, localtime=T, mcores=F) {
     library(parallel)
     all.MTS <- mclapply(dates.gmt, FUN=retrievemts, station=station,
                         getvar=getvar, mc.cores=detectCores())
+  } else if(mcores==T & .Platform$OS.type=="windows") {
+    library(parallel)
+    c1 <- makeCluster(getOption("cl.cores", detectCores()))
+    clusterExport(c1, varlist = list("retrievemts", "dates.gmt"))
+    all.MTS <- parLapply(c1, dates.gmt, fun=retrievemts, station=station, 
+                         getvar=getvar)
+    stopCluster(c1)
   } else {
     all.MTS <- lapply(dates.gmt, FUN=retrievemts, station=station, 
                       getvar=getvar)
