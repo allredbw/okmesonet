@@ -59,6 +59,8 @@ mts <- function(begintime, endtime, station, getvar, localtime=T, mcores=F) {
     library(parallel)
     all.MTS <- mclapply(dates.gmt, FUN=retrievemts, station=station,
                         getvar=getvar, mc.cores=detectCores())
+  } else if(mcores==T & .Platform$OS.type=="windows") {
+    NULL
   } else {
     all.MTS <- lapply(dates.gmt, FUN=retrievemts, station=station, 
                       getvar=getvar)
