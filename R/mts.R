@@ -55,7 +55,7 @@ mts <- function(begintime, endtime, station, getvar, localtime=T, mcores=F) {
 	all.MTS <- vector(mode="list", length=length(dates.gmt))
   
   ## use multiple cores if indicated by mcores=T
-  if(mcores==T) {
+  if(mcores==T & .Platform$OS.type=="unix") {
     library(parallel)
     all.MTS <- mclapply(dates.gmt, FUN=retrievemts, station=station,
                         getvar=getvar, mc.cores=detectCores())
