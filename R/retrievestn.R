@@ -1,4 +1,4 @@
-retrieve.stations <- function() {
+retrievestn <- function() {
   ## Retrieve and display Oklahoma Mesonet station information, including:
   ## station identifier, station number, station name, nearest town, latitude,
   ## longitude, elevation, date commissioned, date decommissioned
