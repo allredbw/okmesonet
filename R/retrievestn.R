@@ -24,7 +24,7 @@ retrievestn <- function() {
                             Elevation=geomeso$V10,
                             Commissioned=strptime(geomeso$V55, format="%Y%m%d",
                                                   tz="America/Chicago"),
-                            Decommisioned=strptime(geomeso$V56, format="%Y%m%d",
+                            Decommissioned=strptime(geomeso$V56, format="%Y%m%d",
                                                    tz="America/Chicago"),
                             stringsAsFactors=F)
   return(stationlist)
