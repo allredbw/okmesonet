@@ -24,9 +24,7 @@ retrievestn <- function() {
                             Elevation=geomeso$V10,
                             Commissioned=strptime(geomeso$V55, format="%Y%m%d",
                                                   tz="America/Chicago"),
-                            Decommisioned=strptime(ifelse(geomeso$V56<20500101,
-                                                          geomeso$V56, NA), 
-                                                   format="%Y%m%d",
+                            Decommisioned=strptime(geomeso$V56, format="%Y%m%d",
                                                    tz="America/Chicago"),
                             stringsAsFactors=F)
   return(stationlist)
