@@ -12,7 +12,8 @@ mts <- function(begintime, endtime, station, getvar="ALL", localtime=T,
   ## Returns: dataframe of MTS files
   
   ## load plyr package
-  library(plyr)
+  if(require(plyr)==F) stop(c("okmesonet requires the 'plyr' package. ",
+                                "Please install with 'install.packages()'"))
   
   ## available Mesonet variables
   variables <- c("STID", "STNM", "RELH", "TAIR", "WSPD", "WVEC", "WDIR", "WDSD", 
@@ -27,7 +28,7 @@ mts <- function(begintime, endtime, station, getvar="ALL", localtime=T,
   if(all(getvar %in% variables)==FALSE) {
     stop(c("Desired variables do not match available variables. ",
            "See http://www.mesonet.org/files/parameter_description_readme.pdf ",
-         "for list.")) }
+         "for available variables.")) }
   
   ## if getvar contains "ALL", remove anything else
   if(any(getvar=="ALL")==TRUE) getvar <- "ALL"
