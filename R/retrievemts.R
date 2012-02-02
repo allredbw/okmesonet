@@ -22,6 +22,16 @@ retrievemts <- function(station, datemts, getvar) {
   ## remove MTS TIME variable: can be confusing with timestamp present
   hold$TIME <- NULL
   
+  ## reorder data frame with STID, STNM, and timestamp first
+  
+  ## variables to put at end
+  endvar <- colnames(hold)[names(hold)!="STID" & names(hold)!="STNM" 
+                           & names(hold)!="timestamp"]
+  
+  ## replace data frame with desired column order by subsetting
+  hold <- hold[,c("STID","STNM","timestamp",endvar)]
+  
+  ## return data frame with desired vairables
   if(getvar == "ALL") {
     return(hold)
   } else {
