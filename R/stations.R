@@ -10,13 +10,13 @@ stations <- function() {
   ## if so, read file
   if(length(Sys.glob(file.path(tempdir(),"stationfile*")))==1) {
     geomeso <- read.csv(Sys.glob(file.path(tempdir(), "stationfile*")), 
-                        skip=122, header=F)
+                        skip=122, header=F, as.is=T)
   } else {
     ## if file has not been downloaded, download and read file
     download.file(url="http://www.mesonet.org/sites/geomeso.csv", quiet=T,
                   destfile=tempfile(pattern="stationfile", tmpdir=tempdir()))
     geomeso <- read.csv(Sys.glob(file.path(tempdir(), "stationfile*")), 
-                        skip=122, header=F)
+                        skip=122, header=F, as.is=T)
   }
   stationlist <- data.frame(Identifier=geomeso$V2, Number=geomeso$V1,
                             Name=geomeso$V3, Town=geomeso$V4, County=geomeso$V7,
@@ -27,7 +27,7 @@ stations <- function() {
                             Decommisioned=strptime(ifelse(geomeso$V56<20500101,
                                                           geomeso$V56, NA), 
                                                    format="%Y%m%d",
-                                                   tz="America/Chicago")
-                            )
+                                                   tz="America/Chicago"),
+                            stringsAsFactors=F)
   return(stationlist)
 }
