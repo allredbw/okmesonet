@@ -1,6 +1,7 @@
-mts <- function(begintime, endtime, station, getvar="ALL", localtime=T, mcores=F) {
+mts <- function(begintime, endtime, station, getvar="ALL", localtime=T, 
+                mcores=F) {
   ## Gets Mesonet MTS file from Mesonet homepage
-  ## Args:
+  ## Arguments:
   ##  begintime: beginning date,given as 'YYYY-MM-DD 00:00'
   ##  endtime: end date, given as 'YYYY-MM-DD 00:00'
   ##  station: four letter character ID for Mesonet station, lowercase
@@ -9,9 +10,11 @@ mts <- function(begintime, endtime, station, getvar="ALL", localtime=T, mcores=F
   ##    use GMT
   ##  mcores: logical to indicate use of foreach and multiple cores
   ## Returns: dataframe of MTS files
+  
+  ## load plyr package
   library(plyr)
   
-  ## available variables
+  ## available Mesonet variables
   variables <- c("STID", "STNM", "RELH", "TAIR", "WSPD", "WVEC", "WDIR", "WDSD", 
                  "WSSD", "WMAX", "RAIN", "PRES", "SRAD", "TA9M", "WS2M", "TS10", 
                  "TB10", "TS05", "TB05", "TS30", "TR05", "TR25", "TR60", "TR75",
@@ -19,10 +22,7 @@ mts <- function(begintime, endtime, station, getvar="ALL", localtime=T, mcores=F
   
   ## convert getvar to uppercase
   getvar <- toupper(getvar)
-  
-  ## convert station to lowercase
-  station <- tolower(station)
-  
+    
   ## check to see if getvar matches available variables
   if(all(getvar %in% variables)==FALSE) {
     stop(c("Desired variables do not match available variables. ",
@@ -32,48 +32,47 @@ mts <- function(begintime, endtime, station, getvar="ALL", localtime=T, mcores=F
   ## if getvar contains "ALL", remove anything else
   if(any(getvar=="ALL")==TRUE) getvar <- "ALL"
   
+  ## convert station to lowercase
+  station <- tolower(station)
+  
   ## check to see if begintime and endtime are of class character or POSIXct 
-  ## set time.posixct appropriately
+  ## set *.local and *.gmt appropriately
   if(is.character(begintime)==T & is.character(endtime)==T) {
-    time.posixct <- F #variable to remember timestamps are NOT of class POSIXct
+    if(localtime==T) {
+      ## convert character timestamp to POSIXct, timezone America/Chicago
+      begintime.local <- as.POSIXct(begintime, tz="America/Chicago")
+      endtime.local  <- as.POSIXct(endtime, tz="America/Chicago")
+      ## Convert to timezone GMT for file retrieval
+      begintime.gmt <- as.POSIXct(format(begintime.local, tz="GMT"), tz="GMT")
+      endtime.gmt <- as.POSIXct(format(endtime.local, tz="GMT"), tz="GMT")
+    } else {
+      ## convert character timestamp to POSIXct, timezone GMT for file retrieval
+      begintime.gmt <- as.POSIXct(begintime, tz="GMT")
+      endtime.gmt  <- as.POSIXct(endtime, tz="GMT")
+    }
   } else if(any(class(begintime)=="POSIXct") & any(class(endtime)=="POSIXct")) {
-    time.posixct <- T #variable to remember timestamps are of class POSIXct
+    if(localtime==T) {
+      ## convert POSIXct timestamp to timezone America/Chicago
+      ## used for subsetting desired variables
+      begintime.local <- as.POSIXct(format(begintime, tz="America/Chicago"),
+                                    tz="America/Chicago")
+      endtime.local <- as.POSIXct(format(endtime, tz="America/Chicago"),
+                                  tz="America/Chicago")
+      ## convert POSIXct timestamp to timezone GMT for file retrieval
+      begintime.gmt <- as.POSIXct(format(begintime, tz="GMT"), tz="GMT")
+      endtime.gmt <- as.POSIXct(format(endtime, tz="GMT"), tz="GMT")
+    } else {
+      ## convert POSIXct timestamp to timezone GMT for file retrieval
+      begintime.gmt <- as.POSIXct(format(begintime, tz="GMT"), tz="GMT")
+      endtime.gmt <- as.POSIXct(format(endtime, tz="GMT"), tz="GMT")
+    }
   } else {
-    stop(c("begintime and endtime must both be entered as YYYY-MM-DD HH:MM",
+    ## if not character or POSIXct, stop and give error message
+    stop(c("begintime and endtime must both be entered as YYYY-MM-DD HH:MM:SS",
            " or a POSIXct class"))
   }
   
-  ## format start and end dates according to timezone specification
-  ## if local time is desired, format dates to CST/CDT
-  ## dates for CST/CDT will be system dependent, hopefully standard
-  if(localtime==T & time.posixct==F) {
-    ## convert character timestamp to POSIXct, timezone America/Chicago
-    begintime.local <- as.POSIXct(begintime, tz="America/Chicago")
-    endtime.local  <- as.POSIXct(endtime, tz="America/Chicago")
-    ## Convert to timezone GMT
-    begintime.gmt <- as.POSIXct(format(begintime.local, tz="GMT"), tz="GMT")
-    endtime.gmt <- as.POSIXct(format(endtime.local, tz="GMT"), tz="GMT")
-  } else if(localtime==T & time.posixct==T) {
-    ## convert POSIXct timestamp to timezone America/Chicago
-    ## used for subsetting below
-    begintime.local <- as.POSIXct(format(begintime, tz="America/Chicago"),
-                                  tz="America/Chicago")
-    endtime.local <- as.POSIXct(format(endtime, tz="America/Chicago"),
-                                  tz="America/Chicago")
-    ## convert POSIXct timestamp to timezine GMT
-    begintime.gmt <- as.POSIXct(format(begintime, tz="GMT"), tz="GMT")
-    endtime.gmt <- as.POSIXct(format(endtime, tz="GMT"), tz="GMT")
-  }
-  else if(localtime==F & time.posixct==T) {
-    begintime.gmt <- as.POSIXct(format(begintime, tz="GMT"), tz="GMT")
-    endtime.gmt <- as.POSIXct(format(endtime, tz="GMT"), tz="GMT")
-  } else {
-    ## convert character timestamp to timzone GMT
-    begintime.gmt <- as.POSIXct(begintime, tz="GMT")
-    endtime.gmt  <- as.POSIXct(endtime, tz="GMT")
-  }
-  
-  ##  sequence GMT days from begin to end
+  ##  sequence GMT days from begin to end for file retrieval
   dates.gmt <- seq.POSIXt(trunc(begintime.gmt, units="days"),
                           trunc(endtime.gmt, units="days"), by="days")
   ## create empty lists
