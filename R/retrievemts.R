@@ -19,6 +19,9 @@ retrievemts <- function(station, datemts, getvar) {
   ## this appears to be always 00:00:00 UTC
   hold$timestamp <- as.POSIXct(hold$TIME*60, origin=datemts)
   
+  ## remove MTS TIME variable: can be confusing with timestamp present
+  hold$TIME <- NULL
+  
   if(getvar == "ALL") {
     return(hold)
   } else {
