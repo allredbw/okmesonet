@@ -32,29 +32,51 @@ mts <- function(begintime, endtime, station, getvar="ALL", localtime=T, mcores=F
   ## if getvar contains "ALL", remove anything else
   if(any(getvar=="ALL")==TRUE) getvar <- "ALL"
   
-  ##  format start and end dates according to timezone specification
-  ##  if local time is desired, format dates to CST/CDT
-  ##  dates for CST/CDT will be system dependent, hopefully standard
-  if(localtime==T) {
-    ##  Classify 'begintime' and 'endtime' as CST/CDT
+  ## check to see if begintime and endtime are of class character or POSIXct 
+  ## set time.posixct appropriately
+  if(is.character(begintime)==T & is.character(endtime)==T) {
+    time.posixct <- F #variable to remember timestamps are NOT of class POSIXct
+  } else if(any(class(begintime)=="POSIXct") & any(class(endtime)=="POSIXct")) {
+    time.posixct <- T #variable to remember timestamps are of class POSIXct
+  } else {
+    stop(c("begintime and endtime must both be entered as YYYY-MM-DD HH:MM",
+           " or a POSIXct class"))
+  }
+  
+  ## format start and end dates according to timezone specification
+  ## if local time is desired, format dates to CST/CDT
+  ## dates for CST/CDT will be system dependent, hopefully standard
+  if(localtime==T & time.posixct==F) {
+    ## convert character timestamp to POSIXct, timezone America/Chicago
     begintime.local <- as.POSIXct(begintime, tz="America/Chicago")
     endtime.local  <- as.POSIXct(endtime, tz="America/Chicago")
+    ## Convert to timezone GMT
     begintime.gmt <- as.POSIXct(format(begintime.local, tz="GMT"), tz="GMT")
     endtime.gmt <- as.POSIXct(format(endtime.local, tz="GMT"), tz="GMT")
-    ##  sequence days from begin to end
-    dates.gmt <- seq.POSIXt(trunc(begintime.gmt, units="days"),
-                              trunc(endtime.gmt, units="days"), by="days")
+  } else if(localtime==T & time.posixct==T) {
+    ## convert POSIXct timestamp to timezone America/Chicago
+    ## used for subsetting below
+    begintime.local <- as.POSIXct(format(begintime, tz="America/Chicago"),
+                                  tz="America/Chicago")
+    endtime.local <- as.POSIXct(format(endtime, tz="America/Chicago"),
+                                  tz="America/Chicago")
+    ## convert POSIXct timestamp to timezine GMT
+    begintime.gmt <- as.POSIXct(format(begintime, tz="GMT"), tz="GMT")
+    endtime.gmt <- as.POSIXct(format(endtime, tz="GMT"), tz="GMT")
+  }
+  else if(localtime==F & time.posixct==T) {
+    begintime.gmt <- as.POSIXct(format(begintime, tz="GMT"), tz="GMT")
+    endtime.gmt <- as.POSIXct(format(endtime, tz="GMT"), tz="GMT")
   } else {
-    ##  Classify 'begintime' and 'endtime' as GMT
+    ## convert character timestamp to timzone GMT
     begintime.gmt <- as.POSIXct(begintime, tz="GMT")
     endtime.gmt  <- as.POSIXct(endtime, tz="GMT")
-    ##  sequence days from begin to end
-    dates.gmt <- seq.POSIXt(trunc(begintime.gmt, units="days"),
-                            trunc(endtime.gmt, units="days"), by="days")
   }
-	
+  
+  ##  sequence GMT days from begin to end
+  dates.gmt <- seq.POSIXt(trunc(begintime.gmt, units="days"),
+                          trunc(endtime.gmt, units="days"), by="days")
   ## create empty lists
-  hold <- data.frame()
 	all.MTS <- vector(mode="list", length=length(dates.gmt))
   
   ## use multiple cores if indicated by mcores=T
