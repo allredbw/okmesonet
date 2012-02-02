@@ -20,6 +20,9 @@ mts <- function(begintime, endtime, station, getvar, localtime=T, mcores=F) {
   ## convert getvar to uppercase
   getvar <- toupper(getvar)
   
+  ## convert station to lowercase
+  station <- tolower(station)
+  
   ## check to see if getvar matches available variables
   if(all(getvar %in% variables)==FALSE) {
     stop(c("Desired variables do not match available variables. ",
