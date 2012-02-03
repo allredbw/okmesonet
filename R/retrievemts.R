@@ -17,24 +17,24 @@ retrievemts <- function(station, datemts, getvar) {
   ## in MTS file
   ## see http://www.mesonet.org/wiki/Public:MDF_Format
   ## this appears to be always 00:00:00 UTC
-  hold$timestamp <- as.POSIXct(hold$TIME*60, origin=datemts)
+  hold$TIME <- as.POSIXct(hold$TIME*60, origin=datemts)
   
   ## remove MTS TIME variable: can be confusing with timestamp present
-  hold$TIME <- NULL
+  #hold$TIME <- NULL
   
   ## reorder data frame with STID, STNM, and timestamp first
   
   ## variables to put at end
   endvar <- colnames(hold)[names(hold)!="STID" & names(hold)!="STNM" 
-                           & names(hold)!="timestamp"]
+                           & names(hold)!="TIME"]
   
   ## replace data frame with desired column order by subsetting
-  hold <- hold[,c("STID","STNM","timestamp",endvar)]
+  hold <- hold[,c("STID","STNM","TIME",endvar)]
   
   ## return data frame with desired vairables
   if(getvar == "ALL") {
     return(hold)
   } else {
-    return(hold[, c("STID", "STNM", "timestamp", getvar)])
+    return(hold[, c("STID", "STNM", "TIME", getvar)])
   }
 }

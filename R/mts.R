@@ -100,23 +100,23 @@ mts <- function(begintime, endtime, station, getvar="ALL", localtime=T,
   if(localtime==T) {
     all.MTS <- lapply(all.MTS,
                       function(x) {
-                        x$timestamp <- 
-                          as.POSIXct(format(x$timestamp, tz="America/Chicago"))
+                        x$TIME <- 
+                          as.POSIXct(format(x$TIME, tz="America/Chicago"))
                         return(x)
                       })
     ##  Subset data according to begin and end time
-    all.MTS[[1]] <- subset(all.MTS[[1]], timestamp>=begintime.local & 
-                           timestamp<=endtime.local)
+    all.MTS[[1]] <- subset(all.MTS[[1]], TIME>=begintime.local & 
+                           TIME<=endtime.local)
     all.MTS[[length(all.MTS)]] <- subset(all.MTS[[length(all.MTS)]],
-                                         timestamp>=begintime.local & 
-                                           timestamp<=endtime.local)
+                                         TIME>=begintime.local & 
+                                           TIME<=endtime.local)
   } else {
     ##  Subset data according to begin and end time
-    all.MTS[[1]] <- subset(all.MTS[[1]], timestamp>=begintime.gmt & 
-                           timestamp<=endtime.gmt)
+    all.MTS[[1]] <- subset(all.MTS[[1]], TIME>=begintime.gmt & 
+                           TIME<=endtime.gmt)
     all.MTS[[length(all.MTS)]] <- subset(all.MTS[[length(all.MTS)]],
-                                         timestamp>=begintime.gmt & 
-                                           timestamp<=endtime.gmt)
+                                         TIME>=begintime.gmt & 
+                                           TIME<=endtime.gmt)
   }
   
   ## use ldply from plyr package to return list as dataframe
