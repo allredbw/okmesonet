@@ -31,6 +31,11 @@ mts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
       ## convert character timestamp to POSIXct, timezone GMT for file retrieval
       begintime.gmt <- as.POSIXct(begintime, tz="GMT")
       endtime.gmt  <- as.POSIXct(endtime, tz="GMT")
+      ## convert begintime.gmt to timezone America/Chicago for continuity
+      begintime.local <- as.POSIXct(format(begintime.gmt, tz="America/Chicago"),
+                                    tz="America/Chicago")
+      endtime.local <- as.POSIXct(format(endtime.gmt, tz="America/Chicago"),
+                                  tz="America/Chicago")
     }
   } else if(any(class(begintime)=="POSIXct") & any(class(endtime)=="POSIXct")) {
     if(localtime==T) {
@@ -47,6 +52,11 @@ mts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
       ## convert POSIXct timestamp to timezone GMT for file retrieval
       begintime.gmt <- as.POSIXct(format(begintime, tz="GMT"), tz="GMT")
       endtime.gmt <- as.POSIXct(format(endtime, tz="GMT"), tz="GMT")
+      ## convert begintime.gmt to timezone America/Chicago for continuity
+      begintime.local <- as.POSIXct(format(begintime.gmt, tz="America/Chicago"),
+                                    tz="America/Chicago")
+      endtime.local <- as.POSIXct(format(endtime.gmt, tz="America/Chicago"),
+                                  tz="America/Chicago")
     }
   } else {
     ## if not character or POSIXct, stop and give error message
@@ -57,8 +67,8 @@ mts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   ## if station is NULL and lat and long are given, retrieve closest staion
   ## with nearstn()
   if(length(station)==0 & is.numeric(lat)==T & is.numeric(lon)==T) {
-    station <- nearstn(pnt.lon=lon, pnt.lat=lat, startdate=begintime.gmt, 
-                       enddate=endtime.gmt)
+    station <- nearstn(pnt.lon=lon, pnt.lat=lat, startdate=begintime.local, 
+                       enddate=endtime.local)
   }
   
   ## available Mesonet variables
