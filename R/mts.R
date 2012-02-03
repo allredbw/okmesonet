@@ -1,10 +1,12 @@
-mts <- function(begintime, endtime, station, getvar="ALL", localtime=T, 
-                mcores=F) {
+mts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL, 
+                getvar="ALL", localtime=T, mcores=F) {
   ## Gets Mesonet MTS file from Mesonet homepage
   ## Arguments:
   ##  begintime: beginning date,given as 'YYYY-MM-DD 00:00'
   ##  endtime: end date, given as 'YYYY-MM-DD 00:00'
-  ##  station: four letter character ID for Mesonet station, lowercase
+  ##  station: four letter character ID for Mesonet station
+  ##  lat: latitude of point location, decimal degrees
+  ##  lon: longitude of point locaiton, decimal degrees
   ##  getvar: variables to retrieve
   ##  localtime: logical to indicate the use of Oklahoma local time, else 
   ##    use GMT
@@ -14,27 +16,6 @@ mts <- function(begintime, endtime, station, getvar="ALL", localtime=T,
   ## load plyr package
   if(require(plyr)==F) stop(c("okmesonet requires the 'plyr' package. ",
                                 "Please install with 'install.packages()'"))
-  
-  ## available Mesonet variables
-  variables <- c("STID", "STNM", "RELH", "TAIR", "WSPD", "WVEC", "WDIR", "WDSD", 
-                 "WSSD", "WMAX", "RAIN", "PRES", "SRAD", "TA9M", "WS2M", "TS10", 
-                 "TB10", "TS05", "TB05", "TS30", "TR05", "TR25", "TR60", "TR75",
-                 "ALL")
-  
-  ## convert getvar to uppercase
-  getvar <- toupper(getvar)
-    
-  ## check to see if getvar matches available variables
-  if(all(getvar %in% variables)==FALSE) {
-    stop(c("Desired variables do not match available variables. ",
-           "See http://www.mesonet.org/files/parameter_description_readme.pdf ",
-         "for available variables.")) }
-  
-  ## if getvar contains "ALL", remove anything else
-  if(any(getvar=="ALL")==TRUE) getvar <- "ALL"
-  
-  ## convert station to lowercase
-  station <- tolower(station)
   
   ## check to see if begintime and endtime are of class character or POSIXct 
   ## set *.local and *.gmt appropriately
@@ -72,6 +53,34 @@ mts <- function(begintime, endtime, station, getvar="ALL", localtime=T,
     stop(c("begintime and endtime must both be entered as YYYY-MM-DD HH:MM:SS",
            " or a POSIXct class"))
   }
+  
+  ## if station is NULL and lat and long are given, retrieve closest staion
+  ## with nearstn()
+  if(length(station)==0 & is.numeric(lat)==T & is.numeric(lon)==T) {
+    station <- nearstn(pnt.lon=lon, pnt.lat=lat, startdate=begintime.gmt, 
+                       enddate=endtime.gmt)
+  }
+  
+  ## available Mesonet variables
+  variables <- c("STID", "STNM", "RELH", "TAIR", "WSPD", "WVEC", "WDIR", "WDSD", 
+                 "WSSD", "WMAX", "RAIN", "PRES", "SRAD", "TA9M", "WS2M", "TS10", 
+                 "TB10", "TS05", "TB05", "TS30", "TR05", "TR25", "TR60", "TR75",
+                 "ALL")
+  
+  ## convert getvar to uppercase
+  getvar <- toupper(getvar)
+    
+  ## check to see if getvar matches available variables
+  if(all(getvar %in% variables)==FALSE) {
+    stop(c("Desired variables do not match available variables. ",
+           "See http://www.mesonet.org/files/parameter_description_readme.pdf ",
+         "for available variables.")) }
+  
+  ## if getvar contains "ALL", remove anything else
+  if(any(getvar=="ALL")==TRUE) getvar <- "ALL"
+  
+  ## convert station to lowercase
+  station <- tolower(station)
   
   ##  sequence GMT days from begin to end for file retrieval
   dates.gmt <- seq.POSIXt(trunc(begintime.gmt, units="days"),
