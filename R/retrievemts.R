@@ -27,6 +27,9 @@ retrievemts <- function(station, datemts, getvar) {
   ## replace data frame with desired column order by subsetting
   mts <- mts[,c("STID","STNM","TIME",endvar)]
   
+  ## replace values <=-994 with NA
+  mts <- replace(mts, mts<=c(-994), NA)
+  
   ## return data frame with desired vairables
   if(getvar == "ALL") {
     return(mts)
