@@ -6,4 +6,13 @@ avgmts <- function(mts, by=c("station")) {
   ##    hour, day, month, and/or year
   ## Returns: data frame
   
+  ## change by to lowercase
+  by <- tolower(by)
+  
+  ## check by for appropriate grouping
+  if(all(by %in% c("station", "hour", "day", "month", "year"))==FALSE) {
+    stop(c("Grouping variables must be station, hour, day, month, or year"))
+  }
+  
+  
 }
