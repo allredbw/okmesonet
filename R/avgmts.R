@@ -34,8 +34,9 @@ avgmts <- function(mts, groups) {
   names(group.list) <- c("STID", "STNM", toupper(groups))
   
   ## variables to average
+  ## RAIN is excluded due to its cumulative nature
   avg.var <- colnames(mts)[names(mts)!="STID" & names(mts)!="STNM" 
-                          & names(mts)!="TIME"]
+                          & names(mts)!="TIME" & names(mts)!="RAIN"]
   
   ## calculate averages based on grouping variables
   mts.avg <- aggregate(mts[,avg.var], by=group.list, FUN=mean, na.rm=T)
