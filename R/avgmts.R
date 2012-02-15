@@ -1,4 +1,4 @@
-avgmts <- function(mts, groups) {
+avgmts <- function(mts, groups, metric="mean") {
   ## Averages MTS data frame by station, hour, day, month, or year
   ## Arguments:
   ##  mts: MTS data frame provided by mts()
@@ -12,6 +12,11 @@ avgmts <- function(mts, groups) {
   ## check by for appropriate grouping
   if(all(groups %in% c("station", "hour", "day", "month", "year"))==FALSE) {
     stop(c("Grouping variables must be station, hour, day, month, or year"))
+  }
+  
+  ## check metric for mean, max, or min
+  if(any(metric %in% c("mean","max","min"))==FALSE) {
+    stop(c("metric must be mean, max, or min"))
   }
   
   ## set list for grouping variables
@@ -39,6 +44,6 @@ avgmts <- function(mts, groups) {
                           & names(mts)!="TIME" & names(mts)!="RAIN"]
   
   ## calculate averages based on grouping variables
-  mts.avg <- aggregate(mts[,avg.var], by=group.list, FUN=mean, na.rm=T)
+  mts.avg <- aggregate(mts[,avg.var], by=group.list, FUN=metric, na.rm=T)
   return(mts.avg)
 }
