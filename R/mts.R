@@ -1,9 +1,82 @@
+#' Retrieve an Oklahoma Mesonet time series file
+#' 
+#' Function to retrieve an \href{http://www.mesonet.org/}{Oklahoma Mesonet} 
+#' time series (MTS) file for a given time period and station. Alternatively, 
+#' if station is omitted and latitude and longitude are given, it retrieves the 
+#' MTS for the closest operating station during the given time period.
+#'
+#' The \href{http://www.mesonet.org/}{Oklahoma Mesonet} is a network of 
+#' automated climate monitoring stations throughout the state of Oklahoma, USA; 
+#' data collection began on Jan 01, 1994.
+#' As of February 2012, there are 120 active stations, with an additional 15
+#' stations decommissioned but with available data. Measurements are recorded 
+#' every five minutes and sent to a central facility for verification and 
+#' quality control by the Oklahoma Climatological Survey.
+#'
+#' The timestamps used to define the time period for \code{mts} can be either
+#' character strings or POSIXct objects. Character strings should be in the 
+#' format "\code{2009-09-08 09:05}" or "\code{2005-12-13 00:00:00}". POSIXct 
+#' objects need to have a timezone specified; \code{mts} converts timezones
+#' appropriately to download correct MTS files.
+#'
+#' Four letter Mesonet station identifier can be found in \code{\link{stations}}
+#' or on the \href{http://www.mesonet.org/}{Oklahoma Mesonet} website.
+#'
+#' Available Mesonet variables and units are described in the 'Parameter
+#' Description' 
+#' \href{http://www.mesonet.org/files/parameter_description_readme.pdf}{readme}
+#' file or \href{http://www.mesonet.org/wiki/Public:MDF_Format}{MTS 
+#' specification}.
+#'
+#' Time records of Oklahoma MTS files are stored in Coordinated Universal Time
+#' (UTC or GMT). To easily convert to local Oklahoma time, \code{localtime=TRUE}
+#' indicates that times used to define the time period are local Oklahoma time.
+#' Timezone conversion is done internally, and accounts for Daylight Savings
+#' Time (as reliably as R can; see \link{timezone}).
+#' \code{localtime=TRUE} will also direct \code{mts} to output in local Oklahoma
+#' time. \code{localtime=FALSE} indicates that UTC or GMT is used for both time
+#' input and output. If time inputs are of POSIXct class, \code{localtime} only 
+#' affects time output.
+#'
+#' The use of multiple cores can decrease the time used to retrieve data for
+#' lengthy time periods. \code{mcores=TRUE} will direct \code{mts} to use the 
+#' number cores in the current machine (determined by 
+#' \code{\link[parallel]{detectCores}}).
+#'
+#' @param begintime character string or POSIXct object. Start time of time 
+#' period. Character strings must be formated as 'YYYY-MM-DD HH:MM:SS'.
+#' @param endtime character string or POSIXct object. End time of time 
+#' period. Character strings must be formated as 'YYYY-MM-DD HH:MM:SS'.
+#' @param station character string. Four letter Mesonet station identifier. See 
+#' 'Details'.
+#' @param lat numeric: latitude of point of interest in decimal degrees.
+#' @param long numeric: longitude of point of interest in decimal degrees.
+#' @param getvar character string. Mesonet variables to retrieve. See 'Details'.
+#' @param localtime logical; if \code{TRUE}, input and output time is local to
+#'  Oklahoma. If \code{FALSE}, input and output time is Coordinated Universal 
+#'  Time (UTC or GMT). See 'Details'.
+#' @param mcores logical; if \code{TRUE}, use multiple cores for file retrieval.
+#'  See 'Details'.
+
+#' @export
+
+#' @return A data frame with values from MTS files for the given station, time 
+#' period, and desired variables. Timestamps for each measurement are returned 
+#' as POSIXct class; timezone is determined by \code{localtime}.
+
+#' @examples
+#' \dontrun{
+#' ## Retrieve Foraker station MTS files for 00:00 Jan 31, 2011 
+#' ## through 15:00 Feb 05, 2011
+#' fora.mts <- mts(begintime="2011-01-31 00:00:00", 
+#'  endtime="2011-02-05 15:00:00", station="fora")}
+
 mts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL, 
-                getvar="ALL", localtime=T, mcores=F) {
+                getvar="ALL", localtime=TRUE, mcores=FALSE) {
   ## Gets Mesonet MTS file from Mesonet homepage
   ## Arguments:
-  ##  begintime: beginning date,given as 'YYYY-MM-DD 00:00'
-  ##  endtime: end date, given as 'YYYY-MM-DD 00:00'
+  ##  begintime: beginning date,given as 'YYYY-MM-DD HH:MM:SS'
+  ##  endtime: end date, given as 'YYYY-MM-DD HH:MM:SS'
   ##  station: four letter character ID for Mesonet station
   ##  lat: latitude of point location, decimal degrees
   ##  lon: longitude of point locaiton, decimal degrees
