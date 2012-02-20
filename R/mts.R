@@ -79,6 +79,11 @@
 #' medi.air <- mts(begintime=medi.time[1], endtime=medi.time[2],
 #'  station="medi", getvar="TAIR")
 #'
+#' ## Download all data for 2001 for station closest to 
+#' ## 36.575284 latitude, -99.478455 longitude, using multiple cores
+#' stn.mts <- mts(begintime="2001-01-01 00:00:00", 
+#'  endtime="2001-12-31 23:55:00", lat=36.575284, long=-99.478455, mcores=T)
+#'
 #' ## Combine air temperature with bison movement data.
 #' ## Retrieve Foraker station MTS files for 00:00 Jan 31, 2011 
 #' ## through 15:00 Feb 05, 2011
