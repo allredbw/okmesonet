@@ -66,10 +66,10 @@
 
 #' @examples
 #' \dontrun{
-#' ## Retrieve Bessie station MTS files for 00:00 Jun 01, 1995
-#' ## through 23:55 Oct 31, 1995
-#' bess.mts <- mts(begintime="1995-06-01 00:00:00",
-#'  endtime="1995-10-31 23:55", station="bess")
+#' ## Retrieve Bessie station MTS files for 00:00 Jun 01, 1997
+#' ## through 23:55 Oct 31, 1997
+#' bess.mts <- mts(begintime="1997-06-01 00:00:00",
+#'  endtime="1997-10-31 23:55", station="bess")
 #'
 #' ## Use POSIXct class to retrieve Medicine Park station air
 #' ## temperature for 09:30 through 20:30 Aug 12, 2004
