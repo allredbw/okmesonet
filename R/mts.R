@@ -66,6 +66,11 @@
 
 #' @examples
 #' \dontrun{
+#' ## Retrieve Bessie station MTS files for 00:00 Jun 01, 1995
+#' ## through 23:55 Oct 31, 1995
+#' bess.mts <- mts(begintime="1995-06-01 00:00:00",
+#'  endtime="1995-10-31 23:55", station="bess")
+#'
 #' ## Combine air temperature with bison movement data.
 #' ## Retrieve Foraker station MTS files for 00:00 Jan 31, 2011 
 #' ## through 15:00 Feb 05, 2011
@@ -74,7 +79,7 @@
 #' ## Round bison timestamp down to five minute mark
 #' bison$newtime <- as.POSIXlt(bison$timestamp)
 #' bison$newtime$sec <- round(bison$newtime$sec, -2)
-#' bison$newtime$min <- as.integer(format(bison$newtime, "%M")) %/% 5 *5
+#' bison$newtime$min <- as.integer(format(bison$newtime, "%M")) %/% 5 * 5
 #' bison$newtime <- as.POSIXct(bison$newtime)
 #' ## Add Foraker station air temperature to bison data
 #' bison$TAIR <- fora.mts$TAIR[match(bison$newtime, fora.mts$TIME)]
