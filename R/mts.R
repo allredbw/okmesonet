@@ -71,6 +71,14 @@
 #' bess.mts <- mts(begintime="1995-06-01 00:00:00",
 #'  endtime="1995-10-31 23:55", station="bess")
 #'
+#' ## Use POSIXct class to retrieve Medicine Park station air
+#' ## temperature for 09:30 Aug 12, 2004 through 20:30 Aug 12, 2004
+#' ## Set times, using 'America/Chicago' for Oklahoma timezone
+#' medi.time <- c(as.POSIXct("2004-08-12 09:30", tz="America/Chicago"),
+#'  as.POSIXct("2004-08-12 20:30", tz="America/Chicago"))
+#' medi.air <- mts(begintime=medi.time[1], endtime=medi.time[2],
+#'  station="medi", getvar="TAIR")
+#'
 #' ## Combine air temperature with bison movement data.
 #' ## Retrieve Foraker station MTS files for 00:00 Jan 31, 2011 
 #' ## through 15:00 Feb 05, 2011
