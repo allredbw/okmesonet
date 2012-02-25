@@ -50,7 +50,7 @@
 #' @param station character string. Four letter Mesonet station identifier. See 
 #' 'Details'.
 #' @param lat numeric: latitude of point of interest in decimal degrees.
-#' @param long numeric: longitude of point of interest in decimal degrees.
+#' @param lon numeric: longitude of point of interest in decimal degrees.
 #' @param getvar character string. Mesonet variables to retrieve. See 'Details'.
 #' @param localtime logical; if \code{TRUE}, input and output time is local to
 #'  Oklahoma. If \code{FALSE}, input and output time is Coordinated Universal 
