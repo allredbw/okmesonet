@@ -191,6 +191,36 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
                "Please check", sQuote("okstations"), 
                "or http://www.mesonet.org/ for correct four letter identifier."))
   
+  ## check to see if begintime is before station commission date
+  comm.date.local <- okstations$Commissioned[match(toupper(station),
+                                             okstations$Identifier)]
+  comm.date.gmt <- as.POSIXct(format(comm.date.local, tz="GMT"), tz="GMT")
+  if(begintime.gmt<comm.date.gmt){
+    begintime.gmt <- comm.date.gmt
+    begintime.local <- comm.date.local
+    if(localtime==T)
+      cat(paste("Using", format(comm.date.local, "%Y-%m-%d %H:%M:%S"), 
+                "as begintime (date", toupper(station), "was commissioned)."))
+    else
+      cat(paste("Using", format(comm.date.gmt, "%Y-%m-%d %H:%M:%S"),
+                "as begintime (date", toupper(station), "was commissioned)."))
+  }
+  
+  ## check to see if endtime is before station decommissioned date
+  decomm.date.local <- okstations$Decommissioned[match(toupper(station),
+                                                   okstations$Identifier)]
+  decomm.date.gmt <- as.POSIXct(format(decomm.date.local, tz="GMT"), tz="GMT")
+  if(endtime.gmt>decomm.date.gmt){
+    endtime.gmt <- decomm.date.gmt
+    endtime.local <- decomm.date.local
+    if(localtime==T)
+      cat(paste("Using", format(decomm.date.local, "%Y-%m-%d %H:%M:%S"), 
+                "as endtime (date", toupper(station), "was decommissioned)."))
+    else
+      cat(paste("Using", format(decomm.date.gmt, "%Y-%m-%d %H:%M:%S"), 
+                "as endtime (date", toupper(station), "was decommissioned)."))
+  }
+  
   ## available Mesonet variables
   variables <- c("STID", "STNM", "RELH", "TAIR", "WSPD", "WVEC", "WDIR", "WDSD", 
                  "WSSD", "WMAX", "RAIN", "PRES", "SRAD", "TA9M", "WS2M", "TS10", 
