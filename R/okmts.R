@@ -19,8 +19,9 @@
 #' objects need to have a timezone specified; \code{okmts} converts timezones
 #' appropriately to download correct MTS files.
 #'
-#' Four letter Mesonet station identifier can be found in \code{\link{stations}}
-#' or on the \href{http://www.mesonet.org/}{Oklahoma Mesonet} website.
+#' Four letter Mesonet station identifier can be found in 
+#' \code{\link{okstations}} or on the 
+#' \href{http://www.mesonet.org/}{Oklahoma Mesonet} website.
 #'
 #' Available Mesonet variables and units are described in the 'Parameter
 #' Description' 
@@ -122,6 +123,13 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   ## load plyr package
   if(require(plyr)==F) stop(c("okmesonet requires the 'plyr' package. ",
                                 "Please install with 'install.packages()'"))
+  
+  ## check to see if station information is available
+  if(exists("okstations")==F) stop(paste("Station data unavailable.\n Check", 
+                                         "http://www.mesonet.org/sites/geomeso.csv",
+                                         "for connectivity\n and run", 
+                                         "data(stations, package=", 
+                                         dQuote("okmesonet"),")"))
   
   ## check to see if begintime and endtime are of class character or POSIXct 
   ## set *.local and *.gmt appropriately
