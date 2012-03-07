@@ -16,7 +16,7 @@ nearstn <- function(pnt.lon, pnt.lat, startdate, enddate) {
                                  "'install.packages()'"))
   
   ## subset active stations for given time frame
-  stations.active <- subset(stations, Commissioned<=startdate & 
+  stations.active <- subset(okstations, Commissioned<=startdate & 
                             Decommissioned>enddate)
   
   ## calculate number of stations

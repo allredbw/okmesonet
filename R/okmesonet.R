@@ -49,6 +49,6 @@ NULL
 #' }
 #'
 #' @docType data
-#' @name stations
+#' @name okstations
 #' @format Data frame.
 NULL
