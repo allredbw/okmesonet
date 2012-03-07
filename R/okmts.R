@@ -185,6 +185,12 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
                        enddate=endtime.local)
   }
   
+  ## check to see if station is a true station
+  if(toupper(station) %in% okstations$Identifier==F)
+    stop(paste("Station identifier is incorrect.\n",
+               "Please check", sQuote("okstations"), 
+               "or http://www.mesonet.org/ for correct four letter identifier."))
+  
   ## available Mesonet variables
   variables <- c("STID", "STNM", "RELH", "TAIR", "WSPD", "WVEC", "WDIR", "WDSD", 
                  "WSSD", "WMAX", "RAIN", "PRES", "SRAD", "TA9M", "WS2M", "TS10", 
