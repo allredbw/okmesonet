@@ -180,7 +180,7 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   
   ## if station is NULL and lat and long are given, retrieve closest staion
   ## with nearstn()
-  if(length(station)==0 & is.numeric(lat)==T & is.numeric(lon)==T) {
+  if(is.null(station)==T & is.numeric(lat)==T & is.numeric(lon)==T) {
     station <- nearstn(pnt.lon=lon, pnt.lat=lat, startdate=begintime.local, 
                        enddate=endtime.local)
   }
