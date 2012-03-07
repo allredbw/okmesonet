@@ -13,10 +13,10 @@
 #' every five minutes and sent to a central facility for verification and 
 #' quality control by the Oklahoma Climatological Survey.
 #'
-#' The timestamps used to define the time period for \code{mts} can be either
+#' The timestamps used to define the time period for \code{okmts} can be either
 #' character strings or POSIXct objects. Character strings should be in the 
 #' format "\code{2009-09-08 09:05}" or "\code{2005-12-13 00:00:00}". POSIXct 
-#' objects need to have a timezone specified; \code{mts} converts timezones
+#' objects need to have a timezone specified; \code{okmts} converts timezones
 #' appropriately to download correct MTS files.
 #'
 #' Four letter Mesonet station identifier can be found in \code{\link{stations}}
@@ -33,13 +33,13 @@
 #' indicates that times used to define the time period are local Oklahoma time.
 #' Timezone conversion is done internally, and accounts for Daylight Savings
 #' Time (as reliably as R can; see \link{timezone}).
-#' \code{localtime=TRUE} will also direct \code{mts} to output in local Oklahoma
+#' \code{localtime=TRUE} will also direct \code{okmts} to output in local Oklahoma
 #' time. \code{localtime=FALSE} indicates that UTC or GMT is used for both time
 #' input and output. If time inputs are of POSIXct class, \code{localtime} only 
 #' affects time output.
 #'
 #' The use of multiple cores can decrease the time used to retrieve data for
-#' lengthy time periods. \code{mcores=TRUE} will direct \code{mts} to use the 
+#' lengthy time periods. \code{mcores=TRUE} will direct \code{okmts} to use the 
 #' number cores in the current machine (determined by 
 #' \code{\link[parallel]{detectCores}}).
 #'
@@ -68,7 +68,7 @@
 #' \dontrun{
 #' ## Retrieve Bessie station MTS files for 00:00 Jun 01, 1997
 #' ## through 23:55 Oct 31, 1997
-#' bess.mts <- mts(begintime="1997-06-01 00:00:00",
+#' bess.mts <- okmts(begintime="1997-06-01 00:00:00",
 #'  endtime="1997-10-31 23:55", station="bess")
 #'
 #' ## Use POSIXct class to retrieve Medicine Park station air
@@ -76,24 +76,24 @@
 #' ## Set times, using 'America/Chicago' for Oklahoma timezone
 #' medi.time <- c(as.POSIXct("2004-08-12 09:30", tz="America/Chicago"),
 #'  as.POSIXct("2004-08-12 20:30", tz="America/Chicago"))
-#' medi.air <- mts(begintime=medi.time[1], endtime=medi.time[2],
+#' medi.air <- okmts(begintime=medi.time[1], endtime=medi.time[2],
 #'  station="medi", getvar="TAIR")
 #'
 #' ## Download all data for 2001 for station closest to 
 #' ## 36.575284 latitude, -99.478455 longitude, using multiple cores
-#' stn.mts <- mts(begintime="2001-01-01 00:00:00", 
+#' stn.mts <- okmts(begintime="2001-01-01 00:00:00", 
 #'  endtime="2001-12-31 23:55:00", lat=36.575284, long=-99.478455, mcores=T)
 #'
 #' ## Retrieve Idabel station MTS data for 00:00 through 12:00 UTC (GMT)
 #' ## Nov 23, 2003
 #' ## Time values are returned in UTC
-#' idab.mts <- mts(begintime="2003-11-23 00:00:00", 
+#' idab.mts <- okmts(begintime="2003-11-23 00:00:00", 
 #'  endtime="2003-11-23 12:00:00", station="idab", localtime=F)
 #'
 #' ## Combine air temperature with bison movement data.
 #' ## Retrieve Foraker station MTS files for 00:00 Jan 31, 2011 
 #' ## through 15:00 Feb 05, 2011
-#' fora.mts <- mts(begintime="2011-01-31 00:00:00", 
+#' fora.mts <- okmts(begintime="2011-01-31 00:00:00", 
 #'  endtime="2011-02-05 15:00:00", station="fora")
 #' ## Round bison timestamp down to five minute mark
 #' bison$newtime <- as.POSIXlt(bison$timestamp)
@@ -104,7 +104,7 @@
 #' bison$TAIR <- fora.mts$TAIR[match(bison$newtime, fora.mts$TIME)]
 #' }
 
-mts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL, 
+okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL, 
                 getvar="ALL", localtime=TRUE, mcores=FALSE) {
   ## Gets Mesonet MTS file from Mesonet homepage
   ## Arguments:
