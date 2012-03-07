@@ -174,8 +174,8 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
     }
   } else {
     ## if not character or POSIXct, stop and give error message
-    stop(c("begintime and endtime must both be entered as YYYY-MM-DD HH:MM:SS",
-           " or a POSIXct class"))
+    stop(paste("begintime and endtime must both be entered as",
+               dQuote("YYYY-MM-DD HH:MM:SS"), "or a POSIXct class."))
   }
   
   ## if station is NULL and lat and long are given, retrieve closest staion
