@@ -191,6 +191,21 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
                "Please check", sQuote("okstations"), 
                "or http://www.mesonet.org/ for correct four letter identifier."))
   
+  ## check to see if begintime is before station commission date
+  comm.date.local <- okstations$Commissioned[match(toupper(station),
+                                             okstations$Identifier)]
+  comm.date.gmt <- as.POSIXct(format(comm.date.local, tz="GMT"), tz="GMT")
+  if(begintime.gmt<comm.date.gmt){
+    begintime.gmt <- comm.date.gmt
+    begintime.local <- comm.date.local
+    if(localtime==T)
+      cat(paste("Using", comm.date.local, "as begintime (date", toupper(station), 
+              "was commissioned)."))
+    else
+      cat(paste("Using", comm.date.gmt, "as begintime (date", toupper(station), 
+                "was commissioned)."))
+  }
+  
   ## available Mesonet variables
   variables <- c("STID", "STNM", "RELH", "TAIR", "WSPD", "WVEC", "WDIR", "WDSD", 
                  "WSSD", "WMAX", "RAIN", "PRES", "SRAD", "TA9M", "WS2M", "TS10", 
