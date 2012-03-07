@@ -128,7 +128,7 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   if(exists("okstations")==F) stop(paste("Station data unavailable.\n Check", 
                                          "http://www.mesonet.org/sites/geomeso.csv",
                                          "for connectivity\n and run", 
-                                         "data(stations, package=", 
+                                         "data(okstations, package=", 
                                          dQuote("okmesonet"),")"))
   
   ## check to see if begintime and endtime are of class character or POSIXct 
