@@ -181,6 +181,10 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   ## if station is NULL and lat and long are given, retrieve closest staion
   ## with nearstn()
   if(is.null(station)==T & is.numeric(lat)==T & is.numeric(lon)==T) {
+    ## check lat/long coordinates first to make sure not too far away
+    if(lat>38 | lon<c(-104) | lat<33 | lon>c(-94))
+      stop(paste(lat, "Latitude,", lon, "Longitude is too far away from",
+                 "Oklahoma for meaningful data."))
     station <- nearstn(pnt.lon=lon, pnt.lat=lat, startdate=begintime.local, 
                        enddate=endtime.local)
   }
