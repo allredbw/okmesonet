@@ -1,7 +1,7 @@
 avgmts <- function(mts, timeframe, metric="mean") {
   ## Averages MTS data frame by hour, day, month, or year
   ## Arguments:
-  ##  mts: MTS data frame provided by mts()
+  ##  mts: MTS data frame provided by okmts()
   ##  timeframe: character, indicating timeframe to average over:
   ##    hour, day, month, and/or year
   ## Returns: data frame
@@ -31,7 +31,6 @@ avgmts <- function(mts, timeframe, metric="mean") {
   ## set second grouping to station number, identified by mts$STNM
   timeframe.list[[2]] <- mts$STNM
   
-
   ## set grouping variables
   if(timeframe=="hour") {
     timeframe.list[[3]] <- format(mts$TIME, "%H")
@@ -54,11 +53,11 @@ avgmts <- function(mts, timeframe, metric="mean") {
   }
 
   ## variables to average
-  ## RAIN is excluded due to its cumulative nature
   avg.var <- colnames(mts)[names(mts)!="STID" & names(mts)!="STNM" 
-                          & names(mts)!="TIME" & names(mts)!="RAIN"]
+                          & names(mts)!="TIME" ]
   
   ## calculate averages based on grouping variables
   mts.avg <- aggregate(mts[,avg.var], by=timeframe.list, FUN=metric, na.rm=T)
+  mts.avg$RAIN  <- totalprecip(mts, timeframe)
   return(mts.avg)
 }
