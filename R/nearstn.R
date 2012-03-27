@@ -11,9 +11,9 @@ nearstn <- function(pnt.lon, pnt.lat, startdate, enddate) {
   ## Returns: four letter station identifier as character object
   
   ## load mapproj package
-  #if(require(mapproj)==F) stop(c("Using lat/long coordinates requires the ",
-  #                               "'mapproj' package. Please install with ",
-  #                               "'install.packages()'"))
+  if(require(mapproj)==F) stop(c("Using lat/long coordinates requires the ",
+                                 "'mapproj' package. Please install with ",
+                                 "'install.packages()'"))
   
   ## subset active stations for given time frame
   stations.active <- subset(okstations, Commissioned<=startdate & 
