@@ -59,6 +59,12 @@ avgmts <- function(mts, timeframe, metric="mean") {
   ## calculate averages based on grouping variables
   mts.avg <- aggregate(mts[,avg.var], by=timeframe.list, FUN=metric, na.rm=T)
   
+  ## if avg.var is only one variable, it is returned as "x" in mts.avg
+  ## change "x" to appropriate name
+  if(length(avg.var)==1) {
+    colnames(mts.avg)[colnames(mts.avg)=="x"] <- avg.var
+  }
+  
   ## calculate rain average
   if(any(colnames(mts) %in% "RAIN")) {
     mts.avg$RAIN  <- totalprecip(mts, timeframe)
