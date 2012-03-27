@@ -123,8 +123,8 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   ## Returns: dataframe of MTS files
   
   ## load plyr package
-  if(require(plyr)==F) stop(c("okmesonet requires the 'plyr' package. ",
-                                "Please install with 'install.packages()'"))
+  #if(require(plyr)==F) stop(c("okmesonet requires the 'plyr' package. ",
+  #                              "Please install with 'install.packages()'"))
   
   ## check to see if station information is available
   if(exists("okstations")==F) stop(paste("Station data unavailable.\n Check", 
@@ -256,11 +256,11 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   
   ## use multiple cores if indicated by mcores=T
   if(mcores==T & .Platform$OS.type=="unix") {
-    library(parallel)
+    #library(parallel)
     all.MTS <- mclapply(dates.gmt, FUN=retrievemts, station=station,
                         getvar=getvar, mc.cores=detectCores())
   } else if(mcores==T & .Platform$OS.type=="windows") {
-    library(parallel)
+    #library(parallel)
     c1 <- makeCluster(getOption("cl.cores", detectCores()))
     #clusterExport(c1, varlist = list("dates.gmt", "retrievemts"))
     all.MTS <- parLapply(c1, dates.gmt, fun=retrievemts, station=station, 
