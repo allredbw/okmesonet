@@ -241,7 +241,7 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
          "for available variables.")) }
   
   ## if getvar contains "ALL", remove anything else
-  if(any(getvar=="ALL")==TRUE) getvar <- "ALL"
+  if(any(getvar %in% "ALL")==TRUE) getvar <- "ALL"
   
   ## convert station to lowercase
   station <- tolower(station)
