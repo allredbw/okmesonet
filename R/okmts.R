@@ -24,10 +24,9 @@
 #'
 #' Available Mesonet variables and units are described in the 
 #' \href{http://www.mesonet.org/index.php/site/about/mdf_mts_files}{MDF/MTS 
-#' Files} page, 
-#' 'Parameter Description' 
+#' Files} webpage, 'Parameter Description' 
 #' \href{http://www.mesonet.org/files/parameter_description_readme.pdf}{readme}
-#' file or \href{http://www.mesonet.org/wiki/Public:MDF_Format}{MTS 
+#' file, or \href{http://www.mesonet.org/wiki/Public:MDF_Format}{MTS 
 #' specification}. Multiple variables can be retreived by combining values into
 #' a vector, e.g. \code{c("TAIR", "RELH")}. \code{"ALL"} indicates all 
 #' available variables.
@@ -65,7 +64,7 @@
 
 #' @export
 
-#' @seealso \code{\link{avgokmts}} to summarize MTS files.
+#' @seealso \code{\link{avgokmts}} to summarize MTS data.
 
 #' @return A data frame with values from MTS files for the given station, time 
 #' period, and desired variables. Time values for each measurement are returned 
