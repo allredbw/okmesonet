@@ -37,7 +37,9 @@ updatestn <- function() {
 if(checkgeomeso()==TRUE) {
   okstations <- updatestn()
 } else {
-  cat(paste("Check http://www.mesonet.org/sites/geomeso.csv for connectivity\n",
-            "and run data(okstations, package=", dQuote("okmesonet"),")", 
+  warning(paste("Check http://www.mesonet.org/sites/geomeso.csv for", 
+                " connectivity\n",
+                "and run data(okstations, package=", dQuote("okmesonet"),")\n",
+                "to update station list.",
             sep=""))
 }
