@@ -85,7 +85,7 @@
 #' ## Download all data for 2001 for station closest to 
 #' ## 36.575284 latitude, -99.478455 longitude, using multiple cores
 #' stn.mts <- okmts(begintime="2001-01-01 00:00:00", 
-#'  endtime="2001-12-31 23:55:00", lat=36.575284, long=-99.478455, mcores=T)
+#'  endtime="2001-12-31 23:55:00", lat=36.575284, lon=-99.478455, mcores=T)
 #'
 #' ## Retrieve Idabel station MTS data for 00:00 through 12:00 UTC (GMT)
 #' ## Nov 23, 2003
