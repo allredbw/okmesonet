@@ -1,12 +1,12 @@
 #' Average an Oklahoma Mesonet time series data frame
 #' 
-#' Averages or summarizes an Oklahoma Mesonet time series (MTS) data 
-#' frame returned by \code{\link{okmts}}. Summary can be over hour, day, 
-#' month, or year. Precipitation (RAIN) is also returned as totals within a 
+#' Summarize an Oklahoma Mesonet time series (MTS) data 
+#' frame returned by \code{\link{okmts}}. Summary can be by hour, day, 
+#' month, or year. Precipitation (RAIN) is returned as totals within the 
 #' given time period.
 #'
 #' @param mts data frame returned by \code{okmts}.
-#' @param timeframe character string indicating timeframe to average over. May
+#' @param by character string indicating time period to average over. May
 #'  include "hour", "day", "month", or "year".
 #' @param metric function to summarize with. Default is "mean" (average), but
 #' may also include "min" and "max" for minimun and maximum, respectively.
@@ -24,28 +24,28 @@
 #'  endtime="1997-10-31 23:55", station="bess")
 #'
 #' ## Average MTS data by day.
-#' bess.mts.avg  <- avgokmts(bess.mts, timeframe="day")
+#' bess.mts.avg  <- avgokmts(bess.mts, by="day")
 #' }
 
 
-avgokmts <- function(mts, timeframe, metric="mean") {
+avgokmts <- function(mts, by, metric="mean") {
   ## Averages MTS data frame by hour, day, month, or year
   ## Arguments:
   ##  mts: MTS data frame provided by okmts()
-  ##  timeframe: character, indicating timeframe to average over:
+  ##  by: character, indicating time period to average over:
   ##    hour, day, month, and/or year
   ## Returns: data frame
   
   ## change by to lowercase
-  timeframe <- tolower(timeframe)
+  by <- tolower(by)
   
-  if(length(timeframe)>1) {
-    stop(paste("Only one grouping (timeframe) variable allowed"))
+  if(length(by)>1) {
+    stop(paste("Only one grouping (by) variable allowed"))
   }
   
   ## check by for appropriate grouping
-  if(any(timeframe %in% c("hour", "day", "month", "year"))==FALSE) {
-    stop(c("Grouping (timeframe) variable must be hour, day, month, or year"))
+  if(any(by %in% c("hour", "day", "month", "year"))==FALSE) {
+    stop(c("Grouping (by) variable must be hour, day, month, or year"))
   }
   
   ## check metric for mean, max, or min
@@ -54,32 +54,32 @@ avgokmts <- function(mts, timeframe, metric="mean") {
   }
   
   ## set list for grouping variables
-  timeframe.list <- vector(mode="list", length=length(timeframe)+2)
+  by.list <- vector(mode="list", length=length(by)+2)
   
   ## set first grouping to station, identified by mts$STID
-  timeframe.list[[1]] <- mts$STID
+  by.list[[1]] <- mts$STID
   ## set second grouping to station number, identified by mts$STNM
-  timeframe.list[[2]] <- mts$STNM
+  by.list[[2]] <- mts$STNM
   
   ## set grouping variables
-  if(timeframe=="hour") {
-    timeframe.list[[3]] <- format(mts$TIME, "%H")
-    timeframe.list[[4]] <- format(mts$TIME, "%d")
-    timeframe.list[[5]] <- format(mts$TIME, "%m")
-    timeframe.list[[6]] <- format(mts$TIME, "%Y")
-    names(timeframe.list) <- c("STID", "STNM", "HOUR", "DAY", "MONTH", "YEAR")
-  } else if (timeframe=="day") {
-      timeframe.list[[3]] <- format(mts$TIME, "%d")
-      timeframe.list[[4]] <- format(mts$TIME, "%m")
-      timeframe.list[[5]] <- format(mts$TIME, "%Y")
-      names(timeframe.list) <- c("STID", "STNM", "DAY", "MONTH", "YEAR")
-  } else if(timeframe=="month") {
-    timeframe.list[[3]] <- format(mts$TIME, "%m")
-    timeframe.list[[4]] <- format(mts$TIME, "%Y")
-    names(timeframe.list) <- c("STID", "STNM","MONTH", "YEAR")
-  } else if(timeframe=="year") {
-    timeframe.list[[3]] <- format(mts$TIME, "%Y")
-    names(timeframe.list) <- c("STID", "STNM", "YEAR")
+  if(by=="hour") {
+    by.list[[3]] <- format(mts$TIME, "%H")
+    by.list[[4]] <- format(mts$TIME, "%d")
+    by.list[[5]] <- format(mts$TIME, "%m")
+    by.list[[6]] <- format(mts$TIME, "%Y")
+    names(by.list) <- c("STID", "STNM", "HOUR", "DAY", "MONTH", "YEAR")
+  } else if (by=="day") {
+      by.list[[3]] <- format(mts$TIME, "%d")
+      by.list[[4]] <- format(mts$TIME, "%m")
+      by.list[[5]] <- format(mts$TIME, "%Y")
+      names(by.list) <- c("STID", "STNM", "DAY", "MONTH", "YEAR")
+  } else if(by=="month") {
+    by.list[[3]] <- format(mts$TIME, "%m")
+    by.list[[4]] <- format(mts$TIME, "%Y")
+    names(by.list) <- c("STID", "STNM","MONTH", "YEAR")
+  } else if(by=="year") {
+    by.list[[3]] <- format(mts$TIME, "%Y")
+    names(by.list) <- c("STID", "STNM", "YEAR")
   }
 
   ## variables to average
@@ -87,7 +87,7 @@ avgokmts <- function(mts, timeframe, metric="mean") {
                           & names(mts)!="TIME" ]
   
   ## calculate averages based on grouping variables
-  mts.avg <- aggregate(mts[,avg.var], by=timeframe.list, FUN=metric, na.rm=T)
+  mts.avg <- aggregate(mts[,avg.var], by=by.list, FUN=metric, na.rm=T)
   
   ## if avg.var is only one variable, it is returned as "x" in mts.avg
   ## change "x" to appropriate name
@@ -97,7 +97,7 @@ avgokmts <- function(mts, timeframe, metric="mean") {
   
   ## calculate rain average
   if(any(colnames(mts) %in% "RAIN")) {
-    mts.avg$RAIN  <- totalprecip(mts, timeframe)
+    mts.avg$RAIN  <- totalprecip(mts, by)
   }
   return(mts.avg)
 }

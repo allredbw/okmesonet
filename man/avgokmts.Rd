@@ -2,12 +2,12 @@
 \alias{avgokmts}
 \title{Average an Oklahoma Mesonet time series data frame}
 \usage{
-  avgokmts(mts, timeframe, metric = "mean")
+  avgokmts(mts, by, metric = "mean")
 }
 \arguments{
   \item{mts}{data frame returned by \code{okmts}.}
 
-  \item{timeframe}{character string indicating timeframe to
+  \item{by}{character string indicating time period to
   average over. May include "hour", "day", "month", or
   "year".}
 
@@ -20,11 +20,10 @@
   and given time period.
 }
 \description{
-  Averages or summarizes an Oklahoma Mesonet time series
-  (MTS) data frame returned by \code{\link{okmts}}. Summary
-  can be over hour, day, month, or year. Precipitation
-  (RAIN) is also returned as totals within a given time
-  period.
+  Summarize an Oklahoma Mesonet time series (MTS) data
+  frame returned by \code{\link{okmts}}. Summary can be by
+  hour, day, month, or year. Precipitation (RAIN) is
+  returned as totals within the given time period.
 }
 \examples{
 \dontrun{
@@ -34,7 +33,7 @@ bess.mts <- okmts(begintime="1997-06-01 00:00:00",
  endtime="1997-10-31 23:55", station="bess")
 
 ## Average MTS data by day.
-bess.mts.avg  <- avgokmts(bess.mts, timeframe="day")
+bess.mts.avg  <- avgokmts(bess.mts, by="day")
 }
 }
 
