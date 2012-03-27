@@ -208,10 +208,10 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
     begintime.gmt <- comm.date.gmt
     begintime.local <- comm.date.local
     if(localtime==T)
-      cat(paste("Using", format(comm.date.local, "%Y-%m-%d %H:%M:%S"), 
+      warning(paste("Using", format(comm.date.local, "%Y-%m-%d %H:%M:%S"), 
                 "as begintime (date", toupper(station), "was commissioned)."))
     else
-      cat(paste("Using", format(comm.date.gmt, "%Y-%m-%d %H:%M:%S"),
+      warning(paste("Using", format(comm.date.gmt, "%Y-%m-%d %H:%M:%S"),
                 "as begintime (date", toupper(station), "was commissioned)."))
   }
   
@@ -223,10 +223,10 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
     endtime.gmt <- decomm.date.gmt
     endtime.local <- decomm.date.local
     if(localtime==T)
-      cat(paste("Using", format(decomm.date.local, "%Y-%m-%d %H:%M:%S"), 
+      warning(paste("Using", format(decomm.date.local, "%Y-%m-%d %H:%M:%S"), 
                 "as endtime (date", toupper(station), "was decommissioned)."))
     else
-      cat(paste("Using", format(decomm.date.gmt, "%Y-%m-%d %H:%M:%S"), 
+      warning(paste("Using", format(decomm.date.gmt, "%Y-%m-%d %H:%M:%S"), 
                 "as endtime (date", toupper(station), "was decommissioned)."))
   }
   
