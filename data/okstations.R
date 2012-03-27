@@ -27,7 +27,8 @@ updatestn <- function() {
                             Elevation=geomeso$V10,
                             Commissioned=strptime(geomeso$V55, format="%Y%m%d",
                                                   tz="America/Chicago"),
-                            Decommissioned=strptime(geomeso$V56, format="%Y%m%d",
+                            Decommissioned=strptime(geomeso$V56, 
+                                                    format="%Y%m%d",
                                                     tz="America/Chicago"),
                             stringsAsFactors=F)
   return(stationlist)
@@ -37,5 +38,6 @@ if(checkgeomeso()==TRUE) {
   okstations <- updatestn()
 } else {
   cat(paste("Check http://www.mesonet.org/sites/geomeso.csv for connectivity\n",
-            "and run data(okstations, package=", dQuote("okmesonet"),")", sep=""))
+            "and run data(okstations, package=", dQuote("okmesonet"),")", 
+            sep=""))
 }

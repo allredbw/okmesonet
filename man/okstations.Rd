@@ -1,19 +1,17 @@
 \docType{data}
 \name{okstations}
 \alias{okstations}
-\title{List and attributes of Oklahoma Mesonet stations}
+\title{List of Oklahoma Mesonet stations}
 \format{Data frame}
 \description{
   List of \href{http://www.mesonet.org/}{Oklahoma Mesonet}
   stations. The Oklahoma Mesonet is a network of automated
-  climate monitoring stations throughout the state of
-  Oklahoma, USA; data collection began on Jan 01, 1994. As
-  of February 2012, there are 120 active stations, with an
-  additional 15 stations that have been decommissioned (but
-  with available data). Measurements are recorded every
-  five minutes and sent to a central facility for
-  verification and quality control by the Oklahoma
-  Climatological Survey.
+  climate monitoring stations throughout Oklahoma, USA.
+  Data collection began January 01, 1994; as of February
+  2012, there are 120 active stations. Measurements are
+  recorded every five minutes and sent to a central
+  facility for verification and quality control by the
+  Oklahoma Climatological Survey.
 }
 \details{
   Station list is updated each time \code{okmesonet} is

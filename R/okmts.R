@@ -1,23 +1,22 @@
-#' Retrieve an Oklahoma Mesonet time series file
+#' Retrieve Oklahoma Mesonet climate data
 #' 
-#' Retrieve an \href{http://www.mesonet.org/}{Oklahoma Mesonet} 
-#' time series (MTS) file for a given time period and station. Alternatively, 
-#' if station is omitted and latitude and longitude are given, it retrieves the 
-#' MTS for the closest operating station during the given time period.
+#' Retrieve \href{http://www.mesonet.org/}{Oklahoma Mesonet} 
+#' time series (MTS) data for a given time period and station. Alternatively, 
+#' if station is omitted and latitude and longitude are given, retrieve  
+#' MTS data for the closest operating station during the given time period.
 #'
 #' The Oklahoma Mesonet is a network of 
-#' automated climate monitoring stations throughout the state of Oklahoma, USA; 
-#' data collection began on Jan 01, 1994.
-#' As of February 2012, there are 120 active stations, with an additional 15
-#' stations decommissioned but with available data. Measurements are recorded 
-#' every five minutes and sent to a central facility for verification and 
-#' quality control by the Oklahoma Climatological Survey.
+#' automated climate monitoring stations throughout Oklahoma, USA. 
+#' Data collection began January 01, 1994; as of February 2012, there are 120 
+#' active stations. Measurements are recorded every five minutes and sent to a 
+#' central facility for verification and quality control by the Oklahoma 
+#' Climatological Survey.
 #'
 #' The timestamps used to define the time period for \code{okmts} can be either
 #' character strings or POSIXct objects. Character strings should be in the 
 #' format "\code{2009-09-08 09:05}" or "\code{2005-12-13 00:00:00}". POSIXct 
 #' objects need to have a timezone specified; \code{okmts} converts timezones
-#' appropriately to download correct MTS files.
+#' appropriately to download correct MTS data.
 #'
 #' Four letter Mesonet station identifier can be found in 
 #' \code{\link{okstations}} or on the 
@@ -29,20 +28,23 @@
 #' 'Parameter Description' 
 #' \href{http://www.mesonet.org/files/parameter_description_readme.pdf}{readme}
 #' file or \href{http://www.mesonet.org/wiki/Public:MDF_Format}{MTS 
-#' specification}.
+#' specification}. Multiple variables can be retreived by combining values into
+#' a vector, e.g. \code{c("TAIR", "RELH")}. \code{"ALL"} indicates all 
+#' available variables.
 #'
-#' Time records of Oklahoma MTS files are stored in Coordinated Universal Time
+#' Time records of Oklahoma MTS data are stored in Coordinated Universal Time
 #' (UTC or GMT). To easily convert to local Oklahoma time, \code{localtime=TRUE}
-#' indicates that times used to define the time period are local Oklahoma time.
+#' indicates that times used to define the time period (\code{begintime} and
+#' \code{endtime}) are local Oklahoma time.
 #' Timezone conversion is done internally, and accounts for Daylight Savings
 #' Time (as reliably as R can; see \link{timezone}).
-#' \code{localtime=TRUE} will also direct \code{okmts} to output in local Oklahoma
-#' time. \code{localtime=FALSE} indicates that UTC or GMT is used for both time
-#' input and output. If time inputs are of POSIXct class, \code{localtime} only 
-#' affects time output.
+#' \code{localtime=TRUE} will also direct \code{okmts} to output in local 
+#' Oklahoma time. \code{localtime=FALSE} indicates that UTC is used for 
+#' both \code{begintime} and \code{endtime}; output is also UTC. If time 
+#' inputs are of POSIXct class, \code{localtime} only affects time output.
 #'
-#' The use of multiple cores can decrease retrieval time for
-#' lengthy time periods. \code{mcores=TRUE} will direct \code{okmts} to use the 
+#' The use of multiple cores can speed up data retrieval for lengthy time 
+#' periods. \code{mcores=TRUE} will direct \code{okmts} to use the 
 #' number cores in the current machine (determined by 
 #' \code{\link[parallel]{detectCores}}).
 #'
@@ -66,7 +68,7 @@
 #' @seealso \code{\link{avgokmts}} to summarize MTS files.
 
 #' @return A data frame with values from MTS files for the given station, time 
-#' period, and desired variables. Timestamps for each measurement are returned 
+#' period, and desired variables. Time values for each measurement are returned 
 #' as POSIXct class; timezone is determined by \code{localtime}.
 
 #' @examples
@@ -81,8 +83,8 @@
 #' ## Set times, using 'America/Chicago' for Oklahoma timezone
 #' medi.time <- c(as.POSIXct("2004-08-12 09:30", tz="America/Chicago"),
 #'  as.POSIXct("2004-08-12 20:30", tz="America/Chicago"))
-#' medi.air <- okmts(begintime=medi.time[1], endtime=medi.time[2],
-#'  station="medi", getvar="TAIR")
+#' medi.mts <- okmts(begintime=medi.time[1], endtime=medi.time[2],
+#'  station="medi", getvar=c("TAIR", "RELH"))
 #'
 #' ## Download all data for 2001 for station closest to 
 #' ## 36.575284 latitude, -99.478455 longitude, using multiple cores
