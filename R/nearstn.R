@@ -36,7 +36,7 @@ nearstn <- function(pnt.lon, pnt.lat, startdate, enddate) {
   nearstn <- which.min(stndistance)
   
   ## print message displaying station
-  cat(paste("Using ",stations.active$Name[nearstn], " (", 
+  message(paste("Using ",stations.active$Name[nearstn], " (", 
             stations.active$Identifier[nearstn], ") station. Commissioned: ",
             stations.active$Commissioned[nearstn], ". Decommissioned: ",
             stations.active$Decommissioned[nearstn], ".", sep=""))
