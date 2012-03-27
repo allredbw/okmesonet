@@ -31,7 +31,7 @@ retrievemts <- function(station, datemts, getvar) {
   mts <- replace(mts, mts<=c(-994), NA)
   
   ## return data frame with desired vairables
-  if(getvar == "ALL") {
+  if(all(getvar %in% "ALL")) {
     return(mts)
   } else {
     return(mts[, c("STID", "STNM", "TIME", getvar)])
