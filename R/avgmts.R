@@ -1,4 +1,4 @@
-avgmts <- function(mts, timeframe, metric="mean") {
+avokgmts <- function(mts, timeframe, metric="mean") {
   ## Averages MTS data frame by hour, day, month, or year
   ## Arguments:
   ##  mts: MTS data frame provided by okmts()
