@@ -1,0 +1,4 @@
+export(okmts)
+export(avgokmts)
+import(plyr)
+import(parallel)
