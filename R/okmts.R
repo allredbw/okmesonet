@@ -1,11 +1,11 @@
 #' Retrieve an Oklahoma Mesonet time series file
 #' 
-#' Function to retrieve an \href{http://www.mesonet.org/}{Oklahoma Mesonet} 
+#' Retrieve an \href{http://www.mesonet.org/}{Oklahoma Mesonet} 
 #' time series (MTS) file for a given time period and station. Alternatively, 
 #' if station is omitted and latitude and longitude are given, it retrieves the 
 #' MTS for the closest operating station during the given time period.
 #'
-#' The \href{http://www.mesonet.org/}{Oklahoma Mesonet} is a network of 
+#' The Oklahoma Mesonet is a network of 
 #' automated climate monitoring stations throughout the state of Oklahoma, USA; 
 #' data collection began on Jan 01, 1994.
 #' As of February 2012, there are 120 active stations, with an additional 15
@@ -23,8 +23,10 @@
 #' \code{\link{okstations}} or on the 
 #' \href{http://www.mesonet.org/}{Oklahoma Mesonet} website.
 #'
-#' Available Mesonet variables and units are described in the 'Parameter
-#' Description' 
+#' Available Mesonet variables and units are described in the 
+#' \href{http://www.mesonet.org/index.php/site/about/mdf_mts_files}{MDF/MTS 
+#' Files} page, 
+#' 'Parameter Description' 
 #' \href{http://www.mesonet.org/files/parameter_description_readme.pdf}{readme}
 #' file or \href{http://www.mesonet.org/wiki/Public:MDF_Format}{MTS 
 #' specification}.
@@ -39,7 +41,7 @@
 #' input and output. If time inputs are of POSIXct class, \code{localtime} only 
 #' affects time output.
 #'
-#' The use of multiple cores can decrease the time used to retrieve data for
+#' The use of multiple cores can decrease retrieval time for
 #' lengthy time periods. \code{mcores=TRUE} will direct \code{okmts} to use the 
 #' number cores in the current machine (determined by 
 #' \code{\link[parallel]{detectCores}}).
