@@ -63,6 +63,8 @@
 
 #' @export
 
+#' @seealso \code{\link{avgokmts}} to summarize MTS files.
+
 #' @return A data frame with values from MTS files for the given station, time 
 #' period, and desired variables. Timestamps for each measurement are returned 
 #' as POSIXct class; timezone is determined by \code{localtime}.

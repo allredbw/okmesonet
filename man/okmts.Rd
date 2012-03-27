@@ -139,4 +139,7 @@ bison$newtime <- as.POSIXct(bison$newtime)
 bison$TAIR <- fora.mts$TAIR[match(bison$newtime, fora.mts$TIME)]
 }
 }
+\seealso{
+  \code{\link{avgokmts}} to summarize MTS files.
+}
 
