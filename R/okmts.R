@@ -130,11 +130,11 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   #                              "Please install with 'install.packages()'"))
   
   ## check to see if station information is available
-  if(exists("okstations")==F) stop(paste("Station data unavailable.\n Check", 
-                                         "http://www.mesonet.org/sites/geomeso.csv",
-                                         "for connectivity\n and run", 
-                                         "data(okstations, package=", 
-                                         dQuote("okmesonet"),")"))
+  if(exists("okstations")==F) {
+    stop(paste("Station data unavailable.\n Check",
+               "http://www.mesonet.org/sites/geomeso.csv",
+               "for connectivity and run updatestn()"))
+  }
   
   ## check to see if begintime and endtime are of class character or POSIXct 
   ## set *.local and *.gmt appropriately
