@@ -15,16 +15,21 @@
 }
 \details{
   Station list is updated each time \code{okmesonet} is
-  loaded. Variables associated with each station include:
-  \itemize{ \item Identifier: four letter station
-  identifier \item Number: station identification number
-  \item Name: station name \item Town: closest town \item
-  County: Oklahoma county \item Latitude: station latitude,
-  decimal degrees \item Longitude: station longitude,
-  decimal degrees \item Elevation: station elevation,
-  meters \item Commissioned: date station was commissioned
-  \item Decommissioned: date station was decommissioned.
-  "2099-12-31" represents currently active }
+  loaded.
+
+  Variables associated with each station include: \itemize{
+  \item Identifier: four letter station identifier \item
+  Number: station identification number \item Name: station
+  name \item Town: closest town \item County: Oklahoma
+  county \item Latitude: station latitude, decimal degrees
+  \item Longitude: station longitude, decimal degrees \item
+  Elevation: station elevation, meters \item Commissioned:
+  date station was commissioned \item Decommissioned: date
+  station was decommissioned. "2099-12-31" represents
+  currently active }
+}
+\seealso{
+  \code{\link{updatestn}} to manually update station list.
 }
 \keyword{datasets}
 
