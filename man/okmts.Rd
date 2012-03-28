@@ -73,9 +73,9 @@
   Available Mesonet variables and units are described in
   the
   \href{http://www.mesonet.org/index.php/site/about/mdf_mts_files}{MDF/MTS
-  Files} page, 'Parameter Description'
+  Files} webpage, 'Parameter Description'
   \href{http://www.mesonet.org/files/parameter_description_readme.pdf}{readme}
-  file or
+  file, or
   \href{http://www.mesonet.org/wiki/Public:MDF_Format}{MTS
   specification}. Multiple variables can be retreived by
   combining values into a vector, e.g. \code{c("TAIR",
@@ -142,6 +142,6 @@ bison$TAIR <- fora.mts$TAIR[match(bison$newtime, fora.mts$TIME)]
 }
 }
 \seealso{
-  \code{\link{avgokmts}} to summarize MTS files.
+  \code{\link{avgokmts}} to summarize MTS data.
 }
 
