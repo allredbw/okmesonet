@@ -279,7 +279,8 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
     all.MTS <- lapply(all.MTS,
                       function(x) {
                         x$TIME <- 
-                          as.POSIXct(format(x$TIME, tz="America/Chicago"))
+                          as.POSIXct(format(x$TIME, tz="America/Chicago"),
+                                     tz="America/Chicago")
                         return(x)
                       })
     ##  Subset data according to begin and end time
