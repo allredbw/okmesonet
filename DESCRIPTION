@@ -5,7 +5,7 @@ Version: 0.0.9
 Date: 2012-03-27
 Author: Brady Allred
 Maintainer: Brady Allred <allredbw@gmail.com>
-Description: okmesonet retrieves and summarizes Oklahoma (USA) Mesonet weather
+Description: okmesonet retrieves and summarizes Oklahoma (USA) Mesonet climate
  data provided by the Oklahoma Climatological Survey. Measurements are recorded
  every five minutes at approximately 120 stations throughout Oklahoma.
 Depends:
