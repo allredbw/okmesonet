@@ -58,7 +58,15 @@
   verification and quality control by the Oklahoma
   Climatological Survey.
 
-  The timestamps used to define the time period for
+  Data access may be restricted by organization and/or
+  location. Please refer to and follow policies found
+  within the
+  \href{http://www.mesonet.org/index.php/site/about/data_access_and_pricing}{Oklahoma
+  Mesonet Data Access Policy}. The authors and maintainers
+  of \code{okmesonet} assume no responsibility for the use
+  or misuse of \code{okmesonet}.
+
+  The objects used to define the time period for
   \code{okmts} can be either character strings or POSIXct
   objects. Character strings should be in the format
   "\code{2009-09-08 09:05}" or "\code{2005-12-13

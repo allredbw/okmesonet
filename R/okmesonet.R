@@ -9,6 +9,12 @@
 #' central facility for verification and quality control by the Oklahoma 
 #' Climatological Survey.
 #'
+#' Data access may be restricted by organization and/or location. Please refer 
+#' to and follow policies found within the
+#' \href{http://www.mesonet.org/index.php/site/about/data_access_and_pricing}{Oklahoma 
+#' Mesonet Data Access Policy}. The authors and maintainers of \code{okmesonet}
+#' assume no responsibility for the use or misuse of \code{okmesonet}.
+#'
 #' @name okmesonet-package
 #' @aliases okmesonet
 #' @docType package
