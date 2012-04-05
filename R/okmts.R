@@ -49,9 +49,10 @@
 #' inputs are of POSIXct class, \code{localtime} only affects time output.
 #'
 #' The use of multiple cores can speed up data retrieval for lengthy time 
-#' periods. \code{mcores=TRUE} will direct \code{okmts} to use the 
-#' number cores in the current machine (determined by 
-#' \code{\link[parallel]{detectCores}}).
+#' periods. \code{mcores} specifies the number of cores to be used. 
+#' \code{mcores=TRUE} will direct \code{okmts} to use the 
+#' number cores less one in the current machine (determined by 
+#' \code{\link[parallel]{detectCores}-1}).
 #'
 #' @param begintime character string or POSIXct object. Start time of time 
 #' period. Character strings must be formated as 'YYYY-MM-DD HH:MM:SS'.
@@ -65,7 +66,7 @@
 #' @param localtime logical; if \code{TRUE}, input and output time is local to
 #'  Oklahoma. If \code{FALSE}, input and output time is Coordinated Universal 
 #'  Time (UTC or GMT). See 'Details'.
-#' @param mcores logical; if \code{TRUE}, use multiple cores for file retrieval.
+#' @param mcores integer or logical; use \emph{n} cores for file retrieval.
 #'  See 'Details'.
 
 #' @export
@@ -264,17 +265,18 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
 	all.MTS <- vector(mode="list", length=length(dates.gmt))
   
   ## use multiple cores if indicated by mcores=T
-  if(mcores==T & .Platform$OS.type=="unix") {
-    #library(parallel)
-    all.MTS <- mclapply(dates.gmt, FUN=retrievemts, station=station,
-                        getvar=getvar, mc.cores=detectCores())
-  } else if(mcores==T & .Platform$OS.type=="windows") {
-    #library(parallel)
-    c1 <- makeCluster(getOption("cl.cores", detectCores()))
-    all.MTS <- parLapply(c1, dates.gmt, fun=retrievemts, station=station, 
-                         getvar=getvar)
-    stopCluster(c1)
-  } else {
+  if(mcores==T | is.numeric(mcores)==T) {
+    if(mcores==T) ncores <- detectCores()-1
+    if(is.numeric(mcores)==T) ncores=round(mcores)
+    if(.Platform$OS.type=="unix") {
+      all.MTS <- mclapply(dates.gmt, FUN=retrievemts, station=station,
+                          getvar=getvar, mc.cores=ncores)
+    } else if(.Platform$OS.type=="windows") {
+      c1 <- makeCluster(getOption("cl.cores", ncores))
+      all.MTS <- parLapply(c1, dates.gmt, fun=retrievemts, station=station, 
+                           getvar=getvar)
+      stopCluster(c1)
+    } } else {
     all.MTS <- lapply(dates.gmt, FUN=retrievemts, station=station, 
                       getvar=getvar)
   }

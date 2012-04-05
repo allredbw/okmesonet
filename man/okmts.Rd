@@ -32,8 +32,8 @@
   and output time is Coordinated Universal Time (UTC or
   GMT). See 'Details'.}
 
-  \item{mcores}{logical; if \code{TRUE}, use multiple cores
-  for file retrieval.  See 'Details'.}
+  \item{mcores}{integer or logical; use \emph{n} cores for
+  file retrieval.  See 'Details'.}
 }
 \value{
   A data frame with values from MTS files for the given
@@ -104,10 +104,11 @@
   \code{localtime} only affects time output.
 
   The use of multiple cores can speed up data retrieval for
-  lengthy time periods. \code{mcores=TRUE} will direct
-  \code{okmts} to use the number cores in the current
-  machine (determined by
-  \code{\link[parallel]{detectCores}}).
+  lengthy time periods. \code{mcores} specifies the number
+  of cores to be used. \code{mcores=TRUE} will direct
+  \code{okmts} to use the number cores less one in the
+  current machine (determined by
+  \code{\link[parallel]{detectCores}-1}).
 }
 \examples{
 \dontrun{
