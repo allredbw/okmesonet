@@ -109,6 +109,11 @@
   \code{okmts} to use the number cores less one in the
   current machine (determined by
   \code{\link[parallel]{detectCores}-1}).
+
+  To prevent repeated retrieval of frequently used data,
+  the data frame returned by \code{okmts} can be saved
+  (e.g. \code{\link{save}}) or written to a file (e.g.
+  \code{\link{write.table}}).
 }
 \examples{
 \dontrun{

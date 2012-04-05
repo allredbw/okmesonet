@@ -54,6 +54,10 @@
 #' number cores less one in the current machine (determined by 
 #' \code{\link[parallel]{detectCores}-1}).
 #'
+#' To prevent repeated retrieval of frequently used data, the data frame
+#' returned by \code{okmts} can be saved (e.g. \code{\link{save}}) or 
+#' written to a file (e.g. \code{\link{write.table}}).
+#'
 #' @param begintime character string or POSIXct object. Start time of time 
 #' period. Character strings must be formated as 'YYYY-MM-DD HH:MM:SS'.
 #' @param endtime character string or POSIXct object. End time of time 
