@@ -3,28 +3,28 @@
 \title{Retrieve Oklahoma Mesonet climate data}
 \usage{
   okmts(begintime, endtime, station = NULL, lat = NULL,
-    lon = NULL, getvar = "ALL", localtime = TRUE,
+    lon = NULL, variables = "ALL", localtime = TRUE,
     mcores = FALSE)
 }
 \arguments{
   \item{begintime}{character string or POSIXct object.
   Start time of time period. Character strings must be
-  formated as 'YYYY-MM-DD HH:MM:SS'.}
+  formatted as 'YYYY-MM-DD HH:MM:SS'.}
 
   \item{endtime}{character string or POSIXct object. End
-  time of time period. Character strings must be formated
+  time of time period. Character strings must be formatted
   as 'YYYY-MM-DD HH:MM:SS'.}
 
   \item{station}{character string. Four letter Mesonet
   station identifier. See 'Details'.}
 
-  \item{lat}{numeric: latitude of point of interest in
+  \item{lat}{numeric. latitude of point of interest in
   decimal degrees.}
 
-  \item{lon}{numeric: longitude of point of interest in
+  \item{lon}{numeric. longitude of point of interest in
   decimal degrees.}
 
-  \item{getvar}{character string. Mesonet variables to
+  \item{variables}{character string. Mesonet variables to
   retrieve. See 'Details'.}
 
   \item{localtime}{logical; if \code{TRUE}, input and
@@ -38,8 +38,8 @@
 \value{
   A data frame with values from MTS files for the given
   station, time period, and desired variables. Time values
-  for each measurement are returned as POSIXct class;
-  timezone is determined by \code{localtime}.
+  for each measurement are returned as POSIXct class; time
+  zone is determined by \code{localtime}.
 }
 \description{
   Retrieve \href{http://www.mesonet.org/}{Oklahoma Mesonet}
@@ -70,8 +70,8 @@
   \code{okmts} can be either character strings or POSIXct
   objects. Character strings should be in the format
   "\code{2009-09-08 09:05}" or "\code{2005-12-13
-  00:00:00}". POSIXct objects need to have a timezone
-  specified; \code{okmts} converts timezones appropriately
+  00:00:00}". POSIXct objects need to have a time zone
+  specified; \code{okmts} converts time zones appropriately
   to download correct MTS data.
 
   Four letter Mesonet station identifier can be found in
@@ -85,7 +85,7 @@
   \href{http://www.mesonet.org/files/parameter_description_readme.pdf}{readme}
   file, or
   \href{http://www.mesonet.org/wiki/Public:MDF_Format}{MTS
-  specification}. Multiple variables can be retreived by
+  specification}. Multiple variables can be retrieved by
   combining values into a vector, e.g. \code{c("TAIR",
   "RELH")}. \code{"ALL"} indicates all available variables.
 
@@ -94,7 +94,7 @@
   convert to local Oklahoma time, \code{localtime=TRUE}
   indicates that times used to define the time period
   (\code{begintime} and \code{endtime}) are local Oklahoma
-  time. Timezone conversion is done internally, and
+  time. Time zone conversion is done internally, and
   accounts for Daylight Savings Time (as reliably as R can;
   see \link{timezone}). \code{localtime=TRUE} will also
   direct \code{okmts} to output in local Oklahoma time.
@@ -124,11 +124,11 @@ bess.mts <- okmts(begintime="1997-06-01 00:00:00",
 
 ## Use POSIXct class to retrieve Medicine Park station air
 ## temperature for 09:30 through 20:30 Aug 12, 2004
-## Set times, using 'America/Chicago' for Oklahoma timezone
+## Set times, using 'America/Chicago' for Oklahoma time zone
 medi.time <- c(as.POSIXct("2004-08-12 09:30", tz="America/Chicago"),
  as.POSIXct("2004-08-12 20:30", tz="America/Chicago"))
 medi.mts <- okmts(begintime=medi.time[1], endtime=medi.time[2],
- station="medi", getvar=c("TAIR", "RELH"))
+ station="medi", variables=c("TAIR", "RELH"))
 
 ## Download all data for 2001 for station closest to
 ## 36.575284 latitude, -99.478455 longitude, using multiple cores

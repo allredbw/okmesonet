@@ -1,4 +1,4 @@
-## roxygen documentaiton for okmesonet package and subsequent datasets
+## roxygen documentation for okmesonet package and subsequent datasets
 
 #' Oklahoma Mesonet climate data
 #'

@@ -13,7 +13,7 @@
 
   \item{metric}{function to summarize with. Default is
   "mean" (average), but may also include "min" and "max"
-  for minimun and maximum, respectively.}
+  for minimum and maximum, respectively.}
 }
 \value{
   A data frame summarizing Mesonet measurements by station
@@ -22,8 +22,8 @@
 \description{
   Summarize an Oklahoma Mesonet time series (MTS) data
   frame returned by \code{\link{okmts}}. Summary can be by
-  hour, day, month, or year. Precipitation (RAIN) is
-  returned as totals within the given time period.
+  hour, day, month, or year. Precipitation (variable RAIN)
+  is returned as totals within the given time period.
 }
 \examples{
 \dontrun{

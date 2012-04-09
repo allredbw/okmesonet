@@ -2,14 +2,14 @@
 #' 
 #' Summarize an Oklahoma Mesonet time series (MTS) data 
 #' frame returned by \code{\link{okmts}}. Summary can be by hour, day, 
-#' month, or year. Precipitation (RAIN) is returned as totals within the 
-#' given time period.
+#' month, or year. Precipitation (variable RAIN) is returned as totals within 
+#' the given time period.
 #'
 #' @param mts data frame returned by \code{okmts}.
 #' @param by character string indicating time period to average over. May
 #'  include "hour", "day", "month", or "year".
 #' @param metric function to summarize with. Default is "mean" (average), but
-#' may also include "min" and "max" for minimun and maximum, respectively.
+#' may also include "min" and "max" for minimum and maximum, respectively.
 
 #' @export
 

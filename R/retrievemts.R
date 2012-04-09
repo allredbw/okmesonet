@@ -1,9 +1,9 @@
-retrievemts <- function(station, datemts, getvar) {
+retrievemts <- function(station, datemts, variables) {
   ## Retrieve MTS file from Mesonet website
   ## Arguments:
   ##  station: four letter character ID for Mesonet station, lowercase
   ##  datemts: date of MTS file to retrieve, POSIXct format
-  ##  getvar: variables to retrieve
+  ##  variables: variables to retrieve
   ## Returns: dataframe containing MTS file with timestamp
   
   ## read MTS from Mesonet website
@@ -31,9 +31,9 @@ retrievemts <- function(station, datemts, getvar) {
   mts <- replace(mts, mts<=c(-994), NA)
   
   ## return data frame with desired vairables
-  if(all(getvar %in% "ALL")) {
+  if(all(variables %in% "ALL")) {
     return(mts)
   } else {
-    return(mts[, c("STID", "STNM", "TIME", getvar)])
+    return(mts[, c("STID", "STNM", "TIME", variables)])
   }
 }
