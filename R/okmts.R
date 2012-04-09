@@ -21,8 +21,8 @@
 #' The objects used to define the time period for \code{okmts} can be either
 #' character strings or POSIXct objects. Character strings should be in the 
 #' format "\code{2009-09-08 09:05}" or "\code{2005-12-13 00:00:00}". POSIXct 
-#' objects need to have a timezone specified; \code{okmts} converts timezones
-#' appropriately to download correct MTS data.
+#' objects need to have a time zone specified; \code{okmts} converts time 
+#' zones appropriately to download correct MTS data.
 #'
 #' Four letter Mesonet station identifier can be found in 
 #' \code{\link{okstations}} or on the 
@@ -33,7 +33,7 @@
 #' Files} webpage, 'Parameter Description' 
 #' \href{http://www.mesonet.org/files/parameter_description_readme.pdf}{readme}
 #' file, or \href{http://www.mesonet.org/wiki/Public:MDF_Format}{MTS 
-#' specification}. Multiple variables can be retreived by combining values into
+#' specification}. Multiple variables can be retrieved by combining values into
 #' a vector, e.g. \code{c("TAIR", "RELH")}. \code{"ALL"} indicates all 
 #' available variables.
 #'
@@ -41,7 +41,7 @@
 #' (UTC or GMT). To easily convert to local Oklahoma time, \code{localtime=TRUE}
 #' indicates that times used to define the time period (\code{begintime} and
 #' \code{endtime}) are local Oklahoma time.
-#' Timezone conversion is done internally, and accounts for Daylight Savings
+#' Time zone conversion is done internally, and accounts for Daylight Savings
 #' Time (as reliably as R can; see \link{timezone}).
 #' \code{localtime=TRUE} will also direct \code{okmts} to output in local 
 #' Oklahoma time. \code{localtime=FALSE} indicates that UTC is used for 
@@ -59,14 +59,14 @@
 #' written to a file (e.g. \code{\link{write.table}}).
 #'
 #' @param begintime character string or POSIXct object. Start time of time 
-#' period. Character strings must be formated as 'YYYY-MM-DD HH:MM:SS'.
+#' period. Character strings must be formatted as 'YYYY-MM-DD HH:MM:SS'.
 #' @param endtime character string or POSIXct object. End time of time 
-#' period. Character strings must be formated as 'YYYY-MM-DD HH:MM:SS'.
-#' @param station character string. Four letter Mesonet station identifier. See 
-#' 'Details'.
-#' @param lat numeric: latitude of point of interest in decimal degrees.
-#' @param lon numeric: longitude of point of interest in decimal degrees.
-#' @param getvar character string. Mesonet variables to retrieve. See 'Details'.
+#' period. Character strings must be formatted as 'YYYY-MM-DD HH:MM:SS'.
+#' @param station character string. Four letter Mesonet station identifier. 
+#' See 'Details'.
+#' @param lat numeric. latitude of point of interest in decimal degrees.
+#' @param lon numeric. longitude of point of interest in decimal degrees.
+#' @param variables character string. Mesonet variables to retrieve. See 'Details'.
 #' @param localtime logical; if \code{TRUE}, input and output time is local to
 #'  Oklahoma. If \code{FALSE}, input and output time is Coordinated Universal 
 #'  Time (UTC or GMT). See 'Details'.
@@ -79,7 +79,7 @@
 
 #' @return A data frame with values from MTS files for the given station, time 
 #' period, and desired variables. Time values for each measurement are returned 
-#' as POSIXct class; timezone is determined by \code{localtime}.
+#' as POSIXct class; time zone is determined by \code{localtime}.
 
 #' @examples
 #' \dontrun{
@@ -90,11 +90,11 @@
 #'
 #' ## Use POSIXct class to retrieve Medicine Park station air
 #' ## temperature for 09:30 through 20:30 Aug 12, 2004
-#' ## Set times, using 'America/Chicago' for Oklahoma timezone
+#' ## Set times, using 'America/Chicago' for Oklahoma time zone
 #' medi.time <- c(as.POSIXct("2004-08-12 09:30", tz="America/Chicago"),
 #'  as.POSIXct("2004-08-12 20:30", tz="America/Chicago"))
 #' medi.mts <- okmts(begintime=medi.time[1], endtime=medi.time[2],
-#'  station="medi", getvar=c("TAIR", "RELH"))
+#'  station="medi", variables=c("TAIR", "RELH"))
 #'
 #' ## Download all data for 2001 for station closest to 
 #' ## 36.575284 latitude, -99.478455 longitude, using multiple cores
@@ -122,7 +122,7 @@
 #' }
 
 okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL, 
-                getvar="ALL", localtime=TRUE, mcores=FALSE) {
+                variables="ALL", localtime=TRUE, mcores=FALSE) {
   ## Gets Mesonet MTS file from Mesonet homepage
   ## Arguments:
   ##  begintime: beginning date,given as 'YYYY-MM-DD HH:MM:SS'
@@ -130,7 +130,7 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   ##  station: four letter character ID for Mesonet station
   ##  lat: latitude of point location, decimal degrees
   ##  lon: longitude of point locaiton, decimal degrees
-  ##  getvar: variables to retrieve
+  ##  variables: variables to retrieve
   ##  localtime: logical to indicate the use of Oklahoma local time, else 
   ##    use GMT
   ##  mcores: logical to indicate use of foreach and multiple cores
@@ -247,17 +247,17 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
                  "TB10", "TS05", "TB05", "TS30", "TR05", "TR25", "TR60", "TR75",
                  "ALL")
   
-  ## convert getvar to uppercase
-  getvar <- toupper(getvar)
+  ## convert variables to uppercase
+  variables <- toupper(variables)
     
-  ## check to see if getvar matches available variables
-  if(all(getvar %in% variables)==FALSE) {
+  ## check to see if variables matches available variables
+  if(all(variables %in% variables)==FALSE) {
     stop(c("Desired variables do not match available variables. ",
            "See http://www.mesonet.org/files/parameter_description_readme.pdf ",
          "for available variables.")) }
   
-  ## if getvar contains "ALL", remove anything else
-  if(any(getvar %in% "ALL")==TRUE) getvar <- "ALL"
+  ## if variables contains "ALL", remove anything else
+  if(any(variables %in% "ALL")==TRUE) variables <- "ALL"
   
   ## convert station to lowercase
   station <- tolower(station)
@@ -274,15 +274,15 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
     if(is.numeric(mcores)==T) ncores=round(mcores)
     if(.Platform$OS.type=="unix") {
       all.MTS <- mclapply(dates.gmt, FUN=retrievemts, station=station,
-                          getvar=getvar, mc.cores=ncores)
+                          variables=variables, mc.cores=ncores)
     } else if(.Platform$OS.type=="windows") {
       c1 <- makeCluster(getOption("cl.cores", ncores))
       all.MTS <- parLapply(c1, dates.gmt, fun=retrievemts, station=station, 
-                           getvar=getvar)
+                           variables=variables)
       stopCluster(c1)
     } } else {
     all.MTS <- lapply(dates.gmt, FUN=retrievemts, station=station, 
-                      getvar=getvar)
+                      variables=variables)
   }
   
   ##  If localtime==T, convert back to CST/CDT and subset to begin/end time
