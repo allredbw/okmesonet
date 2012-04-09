@@ -12,7 +12,5 @@ Depends:
     R (>= 2.14.0), utils
 Imports:
     plyr
-Suggests:
-    mapproj
 License: GPL-2
 LazyData: true
