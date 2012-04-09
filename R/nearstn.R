@@ -10,11 +10,6 @@ nearstn <- function(pnt.lon, pnt.lat, startdate, enddate) {
   ##  enddate: end date of desired data
   ## Returns: four letter station identifier as character object
   
-  ## load mapproj package
-  if(require(mapproj)==F) stop(c("Using lat/long coordinates requires the ",
-                                 "'mapproj' package. Please install with ",
-                                 "'install.packages()'"))
-  
   ## subset active stations for given time frame
   stations.active <- subset(okstations, Commissioned<=startdate & 
                             Decommissioned>enddate)
@@ -22,24 +17,24 @@ nearstn <- function(pnt.lon, pnt.lat, startdate, enddate) {
   ## calculate number of stations
   stnnumber <- nrow(stations.active)
   
-  ## reproject station and point coordinates to cartesian plane
-  coord <- mapproject(x=c(stations.active$Longitude, pnt.lon), 
-                      y=c(stations.active$Latitude, pnt.lat), 
-                      projection="mercator")
-  
   ## calculate station distances from point location
-  ## stnnumber+1 represents point location
-  stndistance <- sqrt((coord$x[stnnumber+1]-coord$x[1:stnnumber])^2
-                      +(coord$y[stnnumber+1]-coord$y[1:stnnumber])^2)
+  stndistance <- mapply(FUN=vincenty, stations.active$Longitude,
+                        stations.active$Latitude,
+                        MoreArgs=list(lon1=pnt.lon, lat1=pnt.lat))
   
   ## determine nearest station
   nearstn <- which.min(stndistance)
+  ## distance in meters
+  neardist <- stndistance[nearstn]
   
   ## print message displaying station
-  message(paste("Using ",stations.active$Name[nearstn], " (", 
-            stations.active$Identifier[nearstn], ") station. Commissioned: ",
-            stations.active$Commissioned[nearstn], ". Decommissioned: ",
-            stations.active$Decommissioned[nearstn], ".", sep=""))
+  msg <- paste("Using ", stations.active$Name[nearstn], " (", 
+               stations.active$Identifier[nearstn], ") station. ", 
+               "Distance: ", neardist/1000, " km ",
+               "Commissioned: ", stations.active$Commissioned[nearstn], 
+               " Decommissioned: ", stations.active$Decommissioned[nearstn], 
+               sep="")
+  message(msg)
   
   ## return four letter station identifier as lowercase
   return(tolower(stations.active$Identifier[nearstn]))
