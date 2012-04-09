@@ -242,7 +242,7 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   }
   
   ## available Mesonet variables
-  variables <- c("STID", "STNM", "RELH", "TAIR", "WSPD", "WVEC", "WDIR", "WDSD", 
+  mtsvariables <- c("STID", "STNM", "RELH", "TAIR", "WSPD", "WVEC", "WDIR", "WDSD", 
                  "WSSD", "WMAX", "RAIN", "PRES", "SRAD", "TA9M", "WS2M", "TS10", 
                  "TB10", "TS05", "TB05", "TS30", "TR05", "TR25", "TR60", "TR75",
                  "ALL")
@@ -251,7 +251,7 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   variables <- toupper(variables)
     
   ## check to see if variables matches available variables
-  if(all(variables %in% variables)==FALSE) {
+  if(all(variables %in% mtsvariables)==FALSE) {
     stop(c("Desired variables do not match available variables. ",
            "See http://www.mesonet.org/files/parameter_description_readme.pdf ",
          "for available variables.")) }
