@@ -14,9 +14,6 @@ nearstn <- function(pnt.lon, pnt.lat, startdate, enddate) {
   stations.active <- subset(okstations, Commissioned<=startdate & 
                             Decommissioned>enddate)
   
-  ## calculate number of stations
-  stnnumber <- nrow(stations.active)
-  
   ## calculate station distances from point location
   stndistance <- mapply(FUN=vincenty, stations.active$Longitude,
                         stations.active$Latitude,
