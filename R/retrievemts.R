@@ -7,10 +7,12 @@ retrievemts <- function(station, datemts, variables) {
   ## Returns: dataframe containing MTS file with timestamp
   
   ## read MTS from Mesonet website
-  mts <- read.csv(paste("http://www.mesonet.org/index.php/dataMdfMts/dataController/getFile/", 
-                         format.POSIXct(datemts, format="%Y%m%d"), station, 
-                         "/mts/TEXT/", sep = ""), 
-                   skip = 2, header = T, as.is = T, sep = "", nrows = 288)
+  mtspath <- paste("http://www.mesonet.org/index.php/dataMdfMts/",
+                   "dataController/getFile/", 
+                   format.POSIXct(datemts, format="%Y%m%d"), station, 
+                   "/mts/TEXT/", sep = "")
+  mts <- read.csv(mtspath, skip = 2, header = T, as.is = T, sep = "", 
+                  nrows = 288)
   
   ## IMPORTANT: convert 'TIME' field to timestamp
   ## TIME represents the number of minutes from base time specific 
