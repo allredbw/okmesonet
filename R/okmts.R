@@ -209,12 +209,13 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   }
   
   ## check to see if station is a true station
-  if(toupper(station) %in% okstations$Identifier==F)
+  if(toupper(station) %in% okstations$Identifier==F) {
     stop.msg <- paste("Station identifier is incorrect.",
                       "Please check", sQuote("okstations"), 
                       "or http://www.mesonet.org/ for correct four letter", 
                       "identifier.")
     stop(stop.msg)
+  }
   
   ## check to see if begintime is before station commission date
   comm.date.local <- okstations$Commissioned[match(toupper(station),
@@ -223,16 +224,17 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   if(begintime.gmt<comm.date.gmt){
     begintime.gmt <- comm.date.gmt
     begintime.local <- comm.date.local
-    if(localtime==T)
+    if(localtime==T) {
       warn.msg <- paste("Using", format(comm.date.local, "%Y-%m-%d %H:%M:%S"), 
                         "as begintime (date", toupper(station), 
                         "was commissioned).")
       warning(warn.msg, call.=F)
-    else
+    } else {
       warn.msg <- paste("Using", format(comm.date.gmt, "%Y-%m-%d %H:%M:%S"),
                         "as begintime (date", toupper(station), 
                         "was commissioned).")
       warning(warn.msg, call.=F)
+    }
   }
   
   ## check to see if endtime is before station decommissioned date
@@ -242,16 +244,17 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   if(endtime.gmt>decomm.date.gmt){
     endtime.gmt <- decomm.date.gmt
     endtime.local <- decomm.date.local
-    if(localtime==T)
+    if(localtime==T) {
       warn.msg <- paste("Using", format(decomm.date.local, "%Y-%m-%d %H:%M:%S"), 
                         "as endtime (date", toupper(station), 
                         "was decommissioned).")
       warning(warn.msg, call.=F)
-    else
+    } else {
       warn.msg <- paste("Using", format(decomm.date.gmt, "%Y-%m-%d %H:%M:%S"), 
                         "as endtime (date", toupper(station), 
                         "was decommissioned).")
       warning(warn.msg, call.=F)
+    }
   }
   
   ## available Mesonet variables
