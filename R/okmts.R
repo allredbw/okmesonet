@@ -141,7 +141,7 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   #                              "Please install with 'install.packages()'"))
   
   ## check to see if station information is available
-  if(exists("okstations")==F || nrow(okstations<50)) {
+  if(exists("okstations")==F || nrow(okstations)<50) {
     stop.msg <- paste("Oklahoma Mesonet station list unavailable or", 
                       "incomplete. Check",
                       "http://www.mesonet.org/sites/geomeso.csv",
