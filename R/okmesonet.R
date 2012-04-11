@@ -59,6 +59,7 @@ NULL
 #' @name okstations
 #' @format Data frame
 #' @seealso \code{\link{updatestn}} to manually update station list.
+#' @aliases .checkgeomeso .downloadstn
 NULL
 
 checkgeomeso <- function() {
