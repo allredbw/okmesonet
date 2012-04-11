@@ -22,9 +22,11 @@
   
   ## use .checkgeomeso() to check connectivity
   if(.checkgeomeso()==FALSE) {
-    warning(paste("Check http://www.mesonet.org/sites/geomeso.csv for", 
-                  " connectivity\n",
-                  "and run updatestn() to update station list.", sep=""))
+    warn.msg <- paste("Oklahoma Mesonet station list unavailable. Check", 
+                      "http://www.mesonet.org/sites/geomeso.csv for", 
+                      "connectivity and run updatestn() to update station", 
+                      "list.")
+    warning(warn.msg, call.=F)
   } else {
     geomeso <- read.csv("http://www.mesonet.org/sites/geomeso.csv", 
                         skip=122, header=F, as.is=T)
