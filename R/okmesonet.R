@@ -72,8 +72,7 @@ checkgeomeso <- function() {
   options(show.error.messages=FALSE, internet.info=3)
   checkconn <- try(readLines("http://www.mesonet.org/sites/geomeso.csv", n=1))
   options(show.error.messages=TRUE, internet.info=internetoption)
-  if (inherits(checkconn,"try-error")) return(FALSE)
-  else return(TRUE)
+  if (inherits(checkconn,"try-error")) return(FALSE) else return(TRUE)
 }
 
 downloadstn <- function() {
