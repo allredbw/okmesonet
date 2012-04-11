@@ -70,7 +70,7 @@ checkgeomeso <- function() {
   ## Returns: logical indicating success
   internetoption <- getOption("internet.info")
   options(show.error.messages=FALSE, internet.info=3)
-  checkconn <- try(readLines("http://www.mesonet.org/sites/geomeso.csv")[1])
+  checkconn <- try(readLines("http://www.mesonet.org/sites/geomeso.csv", n=1))
   options(show.error.messages=TRUE, internet.info=internetoption)
   if (inherits(checkconn,"try-error")) return(FALSE)
   else return(TRUE)
