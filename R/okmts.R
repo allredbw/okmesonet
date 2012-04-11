@@ -141,10 +141,13 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   #                              "Please install with 'install.packages()'"))
   
   ## check to see if station information is available
-  if(exists("okstations")==F) {
-    stop(paste("Station data unavailable.\n Check",
-               "http://www.mesonet.org/sites/geomeso.csv",
-               "for connectivity and run updatestn()"))
+  if(exists("okstations")==F || nrow(okstations<50)) {
+    stop.msg <- paste("Oklahoma Mesonet station list unavailable or", 
+                      "incomplete. Check",
+                      "http://www.mesonet.org/sites/geomeso.csv",
+                      "for connectivity and run updatestn() to update",
+                      "station list")
+    stop(stop.msg)
   }
   
   ## check to see if begintime and endtime are of class character or POSIXct 
@@ -207,9 +210,11 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   
   ## check to see if station is a true station
   if(toupper(station) %in% okstations$Identifier==F)
-    stop(paste("Station identifier is incorrect.\n",
-               "Please check", sQuote("okstations"), 
-               "or http://www.mesonet.org/ for correct four letter identifier."))
+    stop.msg <- paste("Station identifier is incorrect.",
+                      "Please check", sQuote("okstations"), 
+                      "or http://www.mesonet.org/ for correct four letter", 
+                      "identifier.")
+    stop(stop.msg)
   
   ## check to see if begintime is before station commission date
   comm.date.local <- okstations$Commissioned[match(toupper(station),
@@ -219,11 +224,15 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
     begintime.gmt <- comm.date.gmt
     begintime.local <- comm.date.local
     if(localtime==T)
-      warning(paste("Using", format(comm.date.local, "%Y-%m-%d %H:%M:%S"), 
-                "as begintime (date", toupper(station), "was commissioned)."))
+      warn.msg <- paste("Using", format(comm.date.local, "%Y-%m-%d %H:%M:%S"), 
+                        "as begintime (date", toupper(station), 
+                        "was commissioned).")
+      warning(warn.msg, call.=F)
     else
-      warning(paste("Using", format(comm.date.gmt, "%Y-%m-%d %H:%M:%S"),
-                "as begintime (date", toupper(station), "was commissioned)."))
+      warn.msg <- paste("Using", format(comm.date.gmt, "%Y-%m-%d %H:%M:%S"),
+                        "as begintime (date", toupper(station), 
+                        "was commissioned).")
+      warning(warn.msg, call.=F)
   }
   
   ## check to see if endtime is before station decommissioned date
@@ -234,11 +243,15 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
     endtime.gmt <- decomm.date.gmt
     endtime.local <- decomm.date.local
     if(localtime==T)
-      warning(paste("Using", format(decomm.date.local, "%Y-%m-%d %H:%M:%S"), 
-                "as endtime (date", toupper(station), "was decommissioned)."))
+      warn.msg <- paste("Using", format(decomm.date.local, "%Y-%m-%d %H:%M:%S"), 
+                        "as endtime (date", toupper(station), 
+                        "was decommissioned).")
+      warning(warn.msg, call.=F)
     else
-      warning(paste("Using", format(decomm.date.gmt, "%Y-%m-%d %H:%M:%S"), 
-                "as endtime (date", toupper(station), "was decommissioned)."))
+      warn.msg <- paste("Using", format(decomm.date.gmt, "%Y-%m-%d %H:%M:%S"), 
+                        "as endtime (date", toupper(station), 
+                        "was decommissioned).")
+      warning(warn.msg, call.=F)
   }
   
   ## available Mesonet variables
@@ -252,9 +265,11 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
     
   ## check to see if variables matches available variables
   if(all(variables %in% mtsvariables)==FALSE) {
-    stop(c("Desired variables do not match available variables. ",
-           "See http://www.mesonet.org/files/parameter_description_readme.pdf ",
-         "for available variables.")) }
+    stop.msg <- paste("Desired variables do not match available variables. See",
+                      "http://www.mesonet.org/index.php/site/about/mdf_mts_files",
+                      "for available variables.")
+    stop(stop.msg) 
+  }
   
   ## if variables contains "ALL", remove anything else
   if(any(variables %in% "ALL")==TRUE) variables <- "ALL"
