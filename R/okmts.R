@@ -283,6 +283,20 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   ##  sequence GMT days from begin to end for file retrieval
   dates.gmt <- seq.POSIXt(trunc(begintime.gmt, units="days"),
                           trunc(endtime.gmt, units="days"), by="days")
+  
+  ## verify access to MTS files
+  if(length(dates.gmt)<10) nverify <- length(dates.gmt) else nverify <- 10
+  verifyMTS <- sapply(dates.gmt[1:nverify], FUN=verifymts, station=station)
+  if(all(verifyMTS==F)) {
+    stop.msg <- paste("Access to the first ", nverify, " MTS files is ",
+                      "unavailable. Please check ",
+                      "http://www.mesonet.org/index.php/dataMdfMts/",
+                      "dataController/getFile/", 
+                      format.POSIXct(dates.gmt[1], format="%Y%m%d"), station, 
+                      "/mts/TEXT/ ", "for access.", sep="")
+    stop(stop.msg)
+  }
+  
   ## create empty lists
 	all.MTS <- vector(mode="list", length=length(dates.gmt))
   
