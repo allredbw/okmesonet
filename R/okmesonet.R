@@ -1,6 +1,6 @@
 ## roxygen documentation for okmesonet package and subsequent datasets
 
-#' Oklahoma Mesonet climate data
+#' Oklahoma Mesonet climatological data
 #'
 #' The \href{http://www.mesonet.org/}{Oklahoma Mesonet} is a network of 
 #' automated climate monitoring stations throughout Oklahoma, USA. 

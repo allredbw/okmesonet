@@ -1,6 +1,6 @@
 \name{okmts}
 \alias{okmts}
-\title{Retrieve Oklahoma Mesonet climate data}
+\title{Retrieve Oklahoma Mesonet climatological data}
 \usage{
   okmts(begintime, endtime, station = NULL, lat = NULL,
     lon = NULL, variables = "ALL", localtime = TRUE,

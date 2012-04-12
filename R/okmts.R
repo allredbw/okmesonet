@@ -1,4 +1,4 @@
-#' Retrieve Oklahoma Mesonet climate data
+#' Retrieve Oklahoma Mesonet climatological data
 #' 
 #' Retrieve \href{http://www.mesonet.org/}{Oklahoma Mesonet} 
 #' time series (MTS) data for a given time period and station. Alternatively, 

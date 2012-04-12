@@ -2,7 +2,7 @@
 \name{okmesonet-package}
 \alias{okmesonet}
 \alias{okmesonet-package}
-\title{Oklahoma Mesonet climate data}
+\title{Oklahoma Mesonet climatological data}
 \description{
   The \href{http://www.mesonet.org/}{Oklahoma Mesonet} is a
   network of automated climate monitoring stations
