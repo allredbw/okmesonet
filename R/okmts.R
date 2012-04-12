@@ -197,7 +197,7 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
                dQuote("YYYY-MM-DD HH:MM:SS"), "or a POSIXct class."))
   }
   
-  ## if station is NULL and lat and long are given, retrieve closest staion
+  ## if station is NULL and lat and long are given, retrieve closest station
   ## with nearstn()
   if(is.null(station)==T & is.numeric(lat)==T & is.numeric(lon)==T) {
     ## check lat/long coordinates first to make sure not too far away
