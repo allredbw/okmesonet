@@ -1,7 +1,5 @@
 \docType{data}
 \name{okstations}
-\alias{.checkgeomeso}
-\alias{.downloadstn}
 \alias{okstations}
 \title{List of Oklahoma Mesonet stations}
 \format{Data frame}

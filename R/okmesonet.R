@@ -59,7 +59,18 @@ NULL
 #' @name okstations
 #' @format Data frame
 #' @seealso \code{\link{updatestn}} to manually update station list.
-#' @aliases .checkgeomeso .downloadstn
+NULL
+#' Check geomeso.csv
+#'
+#' Internal function to check access to geomeso.csv
+#' @docType data
+#' @name data.checkgeomeso
+NULL
+#' Download Oklahoma Mesonet station list
+#'
+#' Internal function to download Oklahoma Mesonet station list
+#' @docType data
+#' @name data.downloadstn
 NULL
 
 checkgeomeso <- function() {

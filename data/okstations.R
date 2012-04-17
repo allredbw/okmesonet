@@ -1,4 +1,4 @@
-.checkgeomeso <- function() {
+data.checkgeomeso <- function() {
   ## Check to verify internet connectivity and access to 
   ## http://www.mesonet.org/sites/geomeso.csv is available.
   ##
@@ -11,7 +11,7 @@
   if (inherits(checkconn,"try-error")) return(FALSE) else return(TRUE)
 }
 
-.downloadstn <- function() {
+data.downloadstn <- function() {
   ## Retrieve Oklahoma Mesonet station information, including:
   ## station identifier, station number, station name, nearest town, latitude,
   ## longitude, elevation, date commissioned, date decommissioned
@@ -20,7 +20,7 @@
   ## Returns: data frame with above information
   
   ## use .checkgeomeso() to check connectivity
-  if(.checkgeomeso()==FALSE) {
+  if(data.checkgeomeso()==FALSE) {
     warn.msg <- paste("Oklahoma Mesonet station list unavailable. Check", 
                       "http://www.mesonet.org/sites/geomeso.csv for", 
                       "connectivity and run updatestn() to update station", 
@@ -43,4 +43,4 @@
   }
 }
 
-okstations <- .downloadstn()
+okstations <- data.downloadstn()
