@@ -12,8 +12,9 @@
   "year".}
 
   \item{metric}{function to summarize with. Default is
-  "mean" (average), but may also include "min" and "max"
-  for minimum and maximum, respectively.}
+  "mean" (average), but may also include "min", "max", and
+  "sd" for minimum, maximum, and standard deviation,
+  respectively.}
 }
 \value{
   A data frame summarizing Mesonet measurements by station
