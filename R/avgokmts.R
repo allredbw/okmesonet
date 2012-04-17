@@ -9,7 +9,8 @@
 #' @param by character string indicating time period to average over. May
 #'  include "hour", "day", "month", or "year".
 #' @param metric function to summarize with. Default is "mean" (average), but
-#' may also include "min" and "max" for minimum and maximum, respectively.
+#' may also include "min", "max", and "sd" for minimum, maximum, and 
+#' standard deviation, respectively.
 
 #' @export
 
@@ -49,8 +50,8 @@ avgokmts <- function(mts, by, metric="mean") {
   }
   
   ## check metric for mean, max, or min
-  if(any(metric %in% c("mean","max","min"))==FALSE) {
-    stop(c("metric must be mean, max, or min"))
+  if(any(metric %in% c("mean","max","min", "sd"))==FALSE) {
+    stop(c("metric must be mean, max, min, or sd"))
   }
   
   ## set list for grouping variables
