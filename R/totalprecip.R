@@ -40,11 +40,6 @@ totalprecip <- function(mts, timeframe) {
     ## only work with YYYY-MM-DD 00:00:00 values
     #mts.subset <- subset(mts, format(mts$TIME, "%H:%M:%S")=="00:00:00")
     
-    ## YYYY-MM-DD 00:00:00 represents the previous day total rainfall
-    ## modify mts.subset$TIME to represent actual day rainfall
-#     mts.subset$TIME[which(format(mts$TIME, "%H:%M:%S")=="00:00:00")] <- 
-#       as.Date(mts.subset$TIME)-1
-    
     ## set list for grouping variables
     timeframe.list <- vector(mode="list", length=5)
     ## set first grouping to station, identified by mts$STID
