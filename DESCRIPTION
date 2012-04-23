@@ -1,16 +1,17 @@
 Package: okmesonet
 Type: Package
-Title: Retrieve Oklahoma Mesonet climate data
-Version: 0.0.9
-Date: 2012-03-27
+Title: Retrieve Oklahoma Mesonet climatological data
+Version: 0.1.0
+Date: 2012-04-23
 Author: Brady Allred
 Maintainer: Brady Allred <allredbw@gmail.com>
-Description: okmesonet retrieves and summarizes Oklahoma (USA) Mesonet climate
- data provided by the Oklahoma Climatological Survey. Measurements are recorded
- every five minutes at approximately 120 stations throughout Oklahoma.
+Description: okmesonet retrieves and summarizes Oklahoma (USA) Mesonet
+ climatological data provided by the Oklahoma Climatological Survey. 
+ Measurements are recorded every five minutes at approximately 120 stations
+ throughout Oklahoma and are available in near real-time.
 Depends:
     R (>= 2.14.0), utils
 Imports:
     plyr
-License: GPL-2
+License: GPL (>= 2)
 LazyData: true
