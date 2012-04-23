@@ -1,0 +1,17 @@
+okmesonet
+
+Retrieve and summarize Oklahoma Mesonet climatological data.
+
+okmesonet is a simple R package that retrieves and summarizes climatological
+data from the Oklahoma Mesonet (http://www.mesonet.org). The Oklahoma Mesonet is
+a network of automated climate monitoring stations across Oklahoma, USA. Data
+collection began on January 01, 1994, and as of April 2012, there are 120 active
+stations. Measurements are recorded every five minutes, sent to the Oklahoma
+Climatological Survey for verification and quality control, and posted online
+for near real-time availability.
+
+Data access may be restricted by organization and/or location. Please refer to
+and follow policies found in the Oklahoma Mesonet Data Access Policy
+(http://www.mesonet.org/index.php/site/about/data_access_and_pricing). The
+authors and maintainers of okmesonet assume no responsibility for the use or
+misuse of okmesonet.
