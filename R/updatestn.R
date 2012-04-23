@@ -13,7 +13,5 @@ updatestn <- function() {
   ##
   ## Arguments: none
   ## Returns: updated okstations objects
-  unlockBinding("okstations",env=as.environment("package:okmesonet"))
-  assign("okstations", downloadstn(), inherits=T)
-  lockBinding("okstations",env=as.environment("package:okmesonet"))
+  okstations <- downloadstn()
 }

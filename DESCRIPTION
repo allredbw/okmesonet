@@ -1,7 +1,7 @@
 Package: okmesonet
 Type: Package
 Title: Retrieve Oklahoma Mesonet climatological data
-Version: 0.1.0
+Version: 0.1.1
 Date: 2012-04-23
 Author: Brady Allred, Torre Hovick, Samuel Fuhlendorf
 Maintainer: Brady Allred <allredbw@gmail.com>
