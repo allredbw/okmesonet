@@ -1,12 +1,15 @@
-data.checkgeomeso <- function() {
+data.checkgeoinfo <- function() {
   ## Check to verify internet connectivity and access to 
-  ## http://www.mesonet.org/sites/geomeso.csv is available.
+  ## http://www.mesonet.org/index.php/api/siteinfo/from_all_active_with_geo_fields/format/csv/ 
+  ## is available.
   ##
   ## Arguments: none
   ## Returns: logical indicating success
+  path.geoinfo <- paste("http://www.mesonet.org/index.php/api/siteinfo/",
+                        "from_all_active_with_geo_fields/format/csv/", sep ="")
   internetoption <- getOption("internet.info")
   options(show.error.messages=FALSE, internet.info=3)
-  checkconn <- try(readLines("http://www.mesonet.org/sites/geomeso.csv", n=1))
+  checkconn <- try(readLines(path.geoinfo, n=1))
   options(show.error.messages=TRUE, internet.info=internetoption)
   if (inherits(checkconn,"try-error")) return(FALSE) else return(TRUE)
 }
@@ -19,23 +22,25 @@ data.downloadstn <- function() {
   ## Arguments: none
   ## Returns: data frame with above information
   
-  ## use .checkgeomeso() to check connectivity
-  if(data.checkgeomeso()==FALSE) {
+  ## use .checkgeoinfo() to check connectivity
+  path.geoinfo <- paste("http://www.mesonet.org/index.php/api/siteinfo/",
+                        "from_all_active_with_geo_fields/format/csv/", sep ="")
+  if(data.checkgeoinfo()==FALSE) {
     warn.msg <- paste("Oklahoma Mesonet station list unavailable. Check", 
-                      "http://www.mesonet.org/sites/geomeso.csv for", 
+                      path.geoinfo, "for", 
                       "connectivity and run updatestn() to update station", 
                       "list.")
     warning(warn.msg, call.=F)
   } else {
-    geomeso <- read.csv("http://www.mesonet.org/sites/geomeso.csv", 
-                        skip=122, header=F, as.is=T)
-    stationlist <- data.frame(Identifier=geomeso$V2, Number=geomeso$V1,
-                              Name=geomeso$V3, Town=geomeso$V4, County=geomeso$V7,
-                              Latitude=geomeso$V8, Longitude=geomeso$V9,
-                              Elevation=geomeso$V10,
-                              Commissioned=strptime(geomeso$V55, format="%Y%m%d",
+    geoinfo <- read.csv(path.geoinfo, header=T, as.is=T)
+    stationlist <- data.frame(Identifier=geoinfo$stid, Number=geoinfo$stnm,
+                              Name=geoinfo$name, Town=geoinfo$city, 
+                              County=geoinfo$cnty, Latitude=geoinfo$nlat, 
+                              Longitude=geoinfo$elon, Elevation=geoinfo$elev,
+                              Commissioned=strptime(geoinfo$datc, 
+                                                    format="%Y%m%d",
                                                     tz="America/Chicago"),
-                              Decommissioned=strptime(geomeso$V56, 
+                              Decommissioned=strptime(geoinfo$datd, 
                                                       format="%Y%m%d",
                                                       tz="America/Chicago"),
                               stringsAsFactors=F)
