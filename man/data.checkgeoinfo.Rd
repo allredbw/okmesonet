@@ -1,6 +1,6 @@
 \docType{data}
-\name{data.checkgeomeso}
-\alias{data.checkgeomeso}
+\name{data.checkgeoinfo}
+\alias{data.checkgeoinfo}
 \title{Check geomeso.csv}
 \description{
   Internal function to check access to geomeso.csv
