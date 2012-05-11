@@ -113,8 +113,7 @@
 #' fora.mts <- okmts(begintime="2011-01-31 00:00:00", 
 #'  endtime="2011-02-05 15:00:00", station="fora")
 #' ## Round bison timestamp down to five minute mark
-#' bison$newtime <- as.POSIXlt(bison$timestamp)
-#' bison$newtime$sec <- round(bison$newtime$sec, -2)
+#' bison$newtime <- round(bison$timestamp, "min")
 #' bison$newtime$min <- as.integer(format(bison$newtime, "%M")) %/% 5 * 5
 #' bison$newtime <- as.POSIXct(bison$newtime)
 #' ## Add Foraker station air temperature to bison data
