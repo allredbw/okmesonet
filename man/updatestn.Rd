@@ -10,6 +10,12 @@
   internet connectivity is temporarily down), use
   \code{updatestn} to manually update the list.
 }
+\examples{
+\dontrun{
+## Update Oklahoma Mesonet station list
+okstations <- updatestn()
+}
+}
 \seealso{
   \code{\link{okstations}}
 }

@@ -7,11 +7,17 @@
 #' @export
 #' @name updatestn
 #' @seealso \code{\link{okstations}}
+#' 
+#' @examples
+#' \dontrun{
+#' ## Update Oklahoma Mesonet station list
+#' okstations <- updatestn()
+#' }
 
 updatestn <- function() {
   ## Update okstations by calling downloadstn()
   ##
   ## Arguments: none
   ## Returns: updated okstations objects
-  okstations <- downloadstn()
+  downloadstn()
 }
