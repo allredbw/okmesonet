@@ -60,13 +60,13 @@ totalprecip <- function(mts, timeframe) {
                          rain.total.day$MONTH, rain.total.day$YEAR)
       names(month.list) <- c("STID", "STNM", "MONTH", "YEAR")
       rain.total.month <- aggregate(rain.total.day$x, by=month.list,
-                                    FUN=sum)
+                                    FUN=sum, na.rm=T)
       if(timeframe=="year") {
         year.list <- list(rain.total.month$STID, rain.total.month$STNM,
                           rain.total.month$YEAR)
         names(year.list) <- c("STID", "STNM", "YEAR")
         rain.total.year <- aggregate(rain.total.month$x, by=year.list,
-                                      FUN=sum)
+                                      FUN=sum, na.rm=T)
       }
     }
   }
