@@ -216,44 +216,36 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
     stop(stop.msg)
   }
   
-  ## check to see if begintime is before station commission date
+  ## verify begintime is before endtime
+  if(begintime.gmt > endtime.gmt) {
+    stop.msg <- paste("Parameter begintime (", begintime, ") is after ",
+                      "endtime (", endtime, ").", sep="")
+    stop(stop.msg)
+  }
+  
+  ## check to see if begintime and endtime are before station commission date
   comm.date.local <- okstations$Commissioned[match(toupper(station),
                                              okstations$Identifier)]
   comm.date.gmt <- as.POSIXct(format(comm.date.local, tz="GMT"), tz="GMT")
-  if(begintime.gmt<comm.date.gmt){
-    begintime.gmt <- comm.date.gmt
-    begintime.local <- comm.date.local
-    if(localtime==T) {
-      warn.msg <- paste("Using", format(comm.date.local, "%Y-%m-%d %H:%M:%S"), 
-                        "as begintime (date", toupper(station), 
-                        "was commissioned).")
-      warning(warn.msg, call.=F)
-    } else {
-      warn.msg <- paste("Using", format(comm.date.gmt, "%Y-%m-%d %H:%M:%S"),
-                        "as begintime (date", toupper(station), 
-                        "was commissioned).")
-      warning(warn.msg, call.=F)
-    }
+  if(begintime.gmt < comm.date.gmt | endtime.gmt < comm.date.gmt){
+    stop.msg <- paste("Parameters begintime or endtime are before station was", 
+                      " commissioned (", 
+                      format(comm.date.local, "%Y-%m-%d"), 
+                      ").", sep="")
+    stop(stop.msg)
   }
   
-  ## check to see if endtime is before station decommissioned date
+  ## check to see if begintime and endtime are before station decommissioned 
+  ## date
   decomm.date.local <- okstations$Decommissioned[match(toupper(station),
                                                    okstations$Identifier)]
   decomm.date.gmt <- as.POSIXct(format(decomm.date.local, tz="GMT"), tz="GMT")
-  if(endtime.gmt>decomm.date.gmt){
-    endtime.gmt <- decomm.date.gmt
-    endtime.local <- decomm.date.local
-    if(localtime==T) {
-      warn.msg <- paste("Using", format(decomm.date.local, "%Y-%m-%d %H:%M:%S"), 
-                        "as endtime (date", toupper(station), 
-                        "was decommissioned).")
-      warning(warn.msg, call.=F)
-    } else {
-      warn.msg <- paste("Using", format(decomm.date.gmt, "%Y-%m-%d %H:%M:%S"), 
-                        "as endtime (date", toupper(station), 
-                        "was decommissioned).")
-      warning(warn.msg, call.=F)
-    }
+  if(begintime.gmt > decomm.date.gmt | endtime.gmt > decomm.date.gmt){
+    stop.msg <- paste("Parameters begintime or endtime are after station was", 
+                      " decommissioned (", 
+                      format(decomm.date.local, "%Y-%m-%d"), 
+                      ").", sep="")
+    stop(stop.msg)
   }
   
   ## available Mesonet variables
