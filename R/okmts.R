@@ -142,8 +142,9 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
                           sep ="")
     stop.msg <- paste("Oklahoma Mesonet station list unavailable or", 
                       "incomplete. Check", path.geoinfo,
-                      "for connectivity and run updatestn() to update",
-                      "station list")
+                      "for connectivity and run", 
+                      sQuote("okstations  <- updatestn()"), 
+                      "to update station list")
     stop(stop.msg)
   }
   
