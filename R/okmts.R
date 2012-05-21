@@ -135,15 +135,13 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   ##  mcores: logical to indicate use of foreach and multiple cores
   ## Returns: dataframe of MTS files
   
-  ## load plyr package
-  #if(require(plyr)==F) stop(c("okmesonet requires the 'plyr' package. ",
-  #                              "Please install with 'install.packages()'"))
-  
   ## check to see if station information is available
   if(exists("okstations")==F || nrow(okstations)<50) {
+    path.geoinfo <- paste("http://www.mesonet.org/index.php/api/siteinfo/",
+                          "from_all_active_with_geo_fields/format/csv/", 
+                          sep ="")
     stop.msg <- paste("Oklahoma Mesonet station list unavailable or", 
-                      "incomplete. Check",
-                      "http://www.mesonet.org/sites/geomeso.csv",
+                      "incomplete. Check", path.geoinfo,
                       "for connectivity and run updatestn() to update",
                       "station list")
     stop(stop.msg)
