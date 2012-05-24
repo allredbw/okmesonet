@@ -4,7 +4,7 @@
 \usage{
   okmts(begintime, endtime, station = NULL, lat = NULL,
     lon = NULL, variables = "ALL", localtime = TRUE,
-    mcores = FALSE)
+    missingNA = TRUE, mcores = FALSE)
 }
 \arguments{
   \item{begintime}{character string or POSIXct object.
@@ -31,6 +31,9 @@
   output time is local to Oklahoma. If \code{FALSE}, input
   and output time is Coordinated Universal Time (UTC or
   GMT). See 'Details'.}
+
+  \item{missingNA}{logical; if \code{TRUE}, missing values
+  are replaced with NA. See 'Details'.}
 
   \item{mcores}{integer or logical; use \emph{n} cores for
   file retrieval.  See 'Details'.}
@@ -102,6 +105,12 @@
   both \code{begintime} and \code{endtime}; output is also
   UTC. If time inputs are of POSIXct class,
   \code{localtime} only affects time output.
+
+  Missing values are stored as negative integer codes and
+  can be converted to NA with the \code{missingNA}
+  parameter. Missing value descriptions can be found in the
+  \href{http://www.mesonet.org/index.php/site/about/mdf_mts_files}{MDF/MTS
+  Files} webpage.
 
   The use of multiple cores can speed up data retrieval for
   lengthy time periods. \code{mcores} specifies the number
