@@ -48,6 +48,12 @@
 #' both \code{begintime} and \code{endtime}; output is also UTC. If time 
 #' inputs are of POSIXct class, \code{localtime} only affects time output.
 #'
+#' Missing values are stored as negative integer codes and can be converted to
+#' NA with the \code{missingNA} parameter. Missing value descriptions can be 
+#' found in the
+#' \href{http://www.mesonet.org/index.php/site/about/mdf_mts_files}{MDF/MTS 
+#' Files} webpage.
+#' 
 #' The use of multiple cores can speed up data retrieval for lengthy time 
 #' periods. \code{mcores} specifies the number of cores to be used. 
 #' \code{mcores=TRUE} will direct \code{okmts} to use the 
@@ -70,6 +76,8 @@
 #' @param localtime logical; if \code{TRUE}, input and output time is local to
 #'  Oklahoma. If \code{FALSE}, input and output time is Coordinated Universal 
 #'  Time (UTC or GMT). See 'Details'.
+#' @param missingNA logical; if \code{TRUE}, missing values are replaced with
+#'  NA. See 'Details'.
 #' @param mcores integer or logical; use \emph{n} cores for file retrieval.
 #'  See 'Details'.
 
@@ -121,7 +129,8 @@
 #' }
 
 okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL, 
-                variables="ALL", localtime=TRUE, mcores=FALSE) {
+                  variables="ALL", localtime=TRUE, missingNA=TRUE,
+                  mcores=FALSE) {
   ## Gets Mesonet MTS file from Mesonet homepage
   ## Arguments:
   ##  begintime: beginning date,given as 'YYYY-MM-DD HH:MM:SS'
@@ -132,6 +141,7 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
   ##  variables: variables to retrieve
   ##  localtime: logical to indicate the use of Oklahoma local time, else 
   ##    use GMT
+  ##  missingNA: logical to indicate replace missing values with NA
   ##  mcores: logical to indicate use of foreach and multiple cores
   ## Returns: dataframe of MTS files
   
@@ -296,15 +306,16 @@ okmts <- function(begintime, endtime, station=NULL, lat=NULL, lon=NULL,
     if(is.numeric(mcores)==T) ncores=round(mcores)
     if(.Platform$OS.type=="unix") {
       all.MTS <- mclapply(dates.gmt, FUN=retrievemts, station=station,
-                          variables=variables, mc.cores=ncores)
+                          variables=variables, missingNA=missingNA,
+                          mc.cores=ncores)
     } else if(.Platform$OS.type=="windows") {
       c1 <- makeCluster(getOption("cl.cores", ncores))
       all.MTS <- parLapply(c1, dates.gmt, fun=retrievemts, station=station, 
-                           variables=variables)
+                           variables=variables, missingNA=missingNA)
       stopCluster(c1)
     } } else {
     all.MTS <- lapply(dates.gmt, FUN=retrievemts, station=station, 
-                      variables=variables)
+                      variables=variables, missingNA=missingNA)
   }
   
   ##  If localtime==T, convert back to CST/CDT and subset to begin/end time
