@@ -1,5 +1,6 @@
 export(okmts)
 export(avgokmts)
 export(updatestn)
+export(okcurobs)
 import(plyr)
 import(parallel)
