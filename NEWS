@@ -1,5 +1,7 @@
 okmesonet 0.X.X
 ---------------
+* add okcurobs() to retrieve current observations of all Oklahoma Mesonet
+  stations
 * missing values can be converted to NA or left as integer codes
 
 okmesonet 0.1.3
