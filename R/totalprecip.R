@@ -17,6 +17,22 @@ totalprecip <- function(mts, timeframe) {
     mts.subset$TIME[which(format(mts.subset$TIME.gmt, 
                                  "%H:%M:%S")=="00:00:00")] - 1
   
+  ## using the maximum and minimum functions to calculate total rainfall within
+  ## an hour omits in changes between hours (e.g., 16:55:00 and 17:00:00)
+  ## adding a copy of hour beginnings (e.g., 17:00:00) and subtracting one 
+  ## second creates a duplicate within the appropriate hour and allows for 
+  ## correct calculation (probably a better way to do this)
+  
+  ## subset timestamps that are HH:00:00
+  mts.copy <- subset(mts.subset, format(mts.subset$TIME.gmt, 
+                                        "%M:%S")=="00:00")
+  ## substract one second
+  mts.copy$TIME <- mts.copy$TIME - 1
+  
+  ## combine with mts.subset
+  mts.subset <- rbind(mts.subset, mts.copy)
+  
+  
   ## remove anything outside original timestamps
   mts.subset <- subset(mts.subset, TIME>=min(mts$TIME) & TIME<=max(mts$TIME))
   
