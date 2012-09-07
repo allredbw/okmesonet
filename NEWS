@@ -4,6 +4,9 @@ okmesonet 0.X.X
   stations
 * missing values can be converted to NA or left as integer codes
 
+Bug fixes
+* avgokmts() correctly sums RAIN in UTC or local time
+
 okmesonet 0.1.3
 ---------------
 Bug fixes
