@@ -1,4 +1,4 @@
-okmesonet 0.X.X
+okmesonet 0.1.4
 ---------------
 * add okcurobs() to retrieve current observations of all Oklahoma Mesonet
   stations
