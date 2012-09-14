@@ -1,4 +1,4 @@
-retrievemts <- function(station, datemts, variables) {
+retrievemts <- function(station, datemts, variables, missingNA) {
   ## Retrieve MTS file from Mesonet website
   ## Arguments:
   ##  station: four letter character ID for Mesonet station, lowercase
@@ -27,10 +27,10 @@ retrievemts <- function(station, datemts, variables) {
                            & names(mts)!="TIME"]
   
   ## replace data frame with desired column order by subsetting
-  mts <- mts[,c("STID","STNM","TIME",endvar)]
+  mts <- mts[, c("STID", "STNM", "TIME", endvar)]
   
   ## replace values <=-994 with NA
-  mts <- replace(mts, mts<=c(-994), NA)
+  if (missingNA == T) mts <- replace(mts, mts<=c(-994), NA)
   
   ## return data frame with desired vairables
   if(all(variables %in% "ALL")) {

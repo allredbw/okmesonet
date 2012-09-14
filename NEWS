@@ -1,9 +1,18 @@
+okmesonet 0.1.4
+---------------
+* add okcurobs() to retrieve current observations of all Oklahoma Mesonet
+  stations
+* missing values can be converted to NA or left as integer codes
+
+Bug fixes
+* avgokmts() correctly sums RAIN in UTC or local time
+
 okmesonet 0.1.3
 ---------------
 Bug fixes
 
 * avgokmts() correctly handles NAs in RAIN variable
-* date checking in oktms() checks that both begintime and endtime are
+* date checking in okmts() checks that both begintime and endtime are
   before/after Commissioned/Decommissioned dates
 
 okmesonet 0.1.2
