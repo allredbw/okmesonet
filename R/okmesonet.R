@@ -100,7 +100,7 @@ downloadstn <- function() {
   ## use .checkgeoinfo() to check connectivity
   path.geoinfo <- paste("http://www.mesonet.org/index.php/api/siteinfo/",
                         "from_all_active_with_geo_fields/format/csv/", sep ="")
-  if(data.checkgeoinfo()==FALSE) {
+  if(checkgeoinfo()==FALSE) {
     warn.msg <- paste("Oklahoma Mesonet station list unavailable. Check", 
                       path.geoinfo, "for", 
                       "connectivity and run updatestn() to update station", 
