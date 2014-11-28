@@ -7,15 +7,15 @@
   List of \href{http://www.mesonet.org/}{Oklahoma Mesonet}
   stations. The Oklahoma Mesonet is a network of automated
   climate monitoring stations throughout Oklahoma, USA.
-  Data collection began January 01, 1994; as of February
-  2012, there are 120 active stations. Measurements are
+  Data collection began January 01, 1994; as of November
+  2014, there are 120 active stations. Measurements are
   recorded every five minutes and sent to a central
   facility for verification and quality control by the
   Oklahoma Climatological Survey.
 }
 \details{
-  Station list is updated each time \code{okmesonet} is
-  loaded.
+  Station list was updated Nov 28, 2014. See \code{\link{updatestn}} to update 
+  station list.
 
   Variables associated with each station include: \itemize{
   \item Identifier: four letter station identifier \item

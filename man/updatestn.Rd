@@ -11,7 +11,7 @@
 \examples{
 \dontrun{
 ## Update Oklahoma Mesonet station list
-updatestn()
+okstations <- updatestn()
 }
 }
 \seealso{

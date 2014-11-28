@@ -55,7 +55,7 @@
 \details{
   The Oklahoma Mesonet is a network of automated climate
   monitoring stations throughout Oklahoma, USA. Data
-  collection began January 01, 1994; as of February 2012,
+  collection began January 01, 1994; as of November 2014,
   there are 120 active stations. Measurements are recorded
   every five minutes and sent to a central facility for
   verification and quality control by the Oklahoma
