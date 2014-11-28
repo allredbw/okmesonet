@@ -10,7 +10,7 @@
 #' @examples
 #' \dontrun{
 #' ## Update Oklahoma Mesonet station list
-#' updatestn()
+#' okstations <- updatestn()
 #' }
 
 updatestn <- function() {
@@ -18,5 +18,5 @@ updatestn <- function() {
   ##
   ## Arguments: none
   ## Returns: updated okstations objects
-  okstations  <<- downloadstn()
+  downloadstn()
 }
