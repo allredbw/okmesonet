@@ -122,8 +122,3 @@ downloadstn <- function() {
     return(stationlist)
   }
 }
-
-## onAttach function to update staion list
-.onAttach <- function(libname, pkgname) {
-  assign("okstations", downloadstn(), inherits=T)
-}
