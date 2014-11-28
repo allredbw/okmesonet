@@ -4,10 +4,13 @@
 #'
 #' The \href{http://www.mesonet.org/}{Oklahoma Mesonet} is a network of 
 #' automated climate monitoring stations throughout Oklahoma, USA. 
-#' Data collection began January 01, 1994; as of February 2012, there are 120 
+#' Data collection began January 01, 1994; as of November 2014, there are 120 
 #' active stations. Measurements are recorded every five minutes and sent to a 
 #' central facility for verification and quality control by the Oklahoma 
 #' Climatological Survey.
+#'
+#' The list of Oklahoma Mesonet stations was updated November 28, 2014. 
+#' Use \code{\link{updatestn}} to manually update the list.
 #'
 #' Data access may be restricted by organization and/or location. Please refer 
 #' to and follow policies found within the
@@ -33,7 +36,7 @@ NULL
 #' List of \href{http://www.mesonet.org/}{Oklahoma Mesonet} stations. 
 #' The Oklahoma Mesonet is a network of 
 #' automated climate monitoring stations throughout Oklahoma, USA. 
-#' Data collection began January 01, 1994; as of February 2012, there are 120 
+#' Data collection began January 01, 1994; as of November 2014, there are 120 
 #' active stations. Measurements are recorded every five minutes and sent to a 
 #' central facility for verification and quality control by the Oklahoma 
 #' Climatological Survey.
@@ -64,13 +67,13 @@ NULL
 #'
 #' Internal function to check access to geomeso.csv
 #' @docType data
-#' @name data.checkgeoinfo
+#' @name checkgeoinfo
 NULL
 #' Download Oklahoma Mesonet station list
 #'
 #' Internal function to download Oklahoma Mesonet station list
 #' @docType data
-#' @name data.downloadstn
+#' @name downloadstn
 NULL
 
 checkgeoinfo <- function() {
@@ -100,7 +103,7 @@ downloadstn <- function() {
   ## use .checkgeoinfo() to check connectivity
   path.geoinfo <- paste("http://www.mesonet.org/index.php/api/siteinfo/",
                         "from_all_active_with_geo_fields/format/csv/", sep ="")
-  if(data.checkgeoinfo()==FALSE) {
+  if(checkgeoinfo()==FALSE) {
     warn.msg <- paste("Oklahoma Mesonet station list unavailable. Check", 
                       path.geoinfo, "for", 
                       "connectivity and run updatestn() to update station", 
@@ -121,9 +124,4 @@ downloadstn <- function() {
                               stringsAsFactors=F)
     return(stationlist)
   }
-}
-
-## onAttach function to update staion list
-.onAttach <- function(libname, pkgname) {
-  assign("okstations", downloadstn(), inherits=T)
 }
