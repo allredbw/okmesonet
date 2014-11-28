@@ -64,13 +64,13 @@ NULL
 #'
 #' Internal function to check access to geomeso.csv
 #' @docType data
-#' @name data.checkgeoinfo
+#' @name checkgeoinfo
 NULL
 #' Download Oklahoma Mesonet station list
 #'
 #' Internal function to download Oklahoma Mesonet station list
 #' @docType data
-#' @name data.downloadstn
+#' @name downloadstn
 NULL
 
 checkgeoinfo <- function() {
