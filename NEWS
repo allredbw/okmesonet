@@ -1,3 +1,9 @@
+okmesonet 0.1.5
+---------------
+* List of Oklahoma Mesonet stations (okstations) is no longer downloaded or
+  updated on first install or package loading. A list is included with the
+  package (current as of November 28, 2014) and can be updated via updatestn()
+
 okmesonet 0.1.4
 ---------------
 * add okcurobs() to retrieve current observations of all Oklahoma Mesonet
