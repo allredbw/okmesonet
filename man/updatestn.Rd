@@ -5,10 +5,8 @@
   updatestn()
 }
 \description{
-  The list of Oklahoma Mesonet stations is updated each
-  time \code{okmesonet} is loaded. If this fails (e.g.,
-  internet connectivity is temporarily down), use
-  \code{updatestn} to manually update the list.
+  The list of Oklahoma Mesonet stations was updated November 28, 2014. 
+  Use \code{updatestn} to manually update the list.
 }
 \examples{
 \dontrun{
